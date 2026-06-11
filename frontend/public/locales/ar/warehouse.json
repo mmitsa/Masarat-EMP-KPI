@@ -1,0 +1,135 @@
+{
+    "title": "إدارة المستودعات",
+    "subtitle": "إدارة المخزون والأصناف",
+    "inventory": {
+        "title": "المخزون",
+        "items": "الأصناف",
+        "item": "صنف",
+        "addItem": "إضافة صنف",
+        "editItem": "تعديل صنف",
+        "deleteItem": "حذف صنف",
+        "itemDetails": "تفاصيل الصنف",
+        "itemCode": "رمز الصنف",
+        "itemName": "اسم الصنف",
+        "category": "التصنيف",
+        "unit": "الوحدة",
+        "quantity": "الكمية",
+        "minQuantity": "الحد الأدنى",
+        "maxQuantity": "الحد الأقصى",
+        "reorderLevel": "مستوى إعادة الطلب",
+        "unitPrice": "سعر الوحدة",
+        "totalValue": "القيمة الإجمالية",
+        "location": "الموقع",
+        "warehouse": "المستودع",
+        "shelf": "الرف",
+        "bin": "الخانة",
+        "barcode": "الباركود",
+        "sku": "رمز SKU",
+        "description": "الوصف",
+        "notes": "ملاحظات",
+        "status": {
+            "title": "الحالة",
+            "inStock": "متوفر",
+            "lowStock": "مخزون منخفض",
+            "outOfStock": "نفد المخزون",
+            "expired": "منتهي الصلاحية",
+            "reserved": "محجوز"
+        }
+    },
+    "warehouses": {
+        "title": "المستودعات",
+        "warehouse": "مستودع",
+        "addWarehouse": "إضافة مستودع",
+        "editWarehouse": "تعديل مستودع",
+        "deleteWarehouse": "حذف مستودع",
+        "warehouseName": "اسم المستودع",
+        "warehouseCode": "رمز المستودع",
+        "address": "العنوان",
+        "manager": "مدير المستودع",
+        "capacity": "السعة",
+        "usedCapacity": "السعة المستخدمة",
+        "availableCapacity": "السعة المتاحة"
+    },
+    "movements": {
+        "title": "حركات المخزون",
+        "movement": "حركة",
+        "addMovement": "إضافة حركة",
+        "movementType": "نوع الحركة",
+        "types": {
+            "receive": "استلام",
+            "issue": "صرف",
+            "transfer": "تحويل",
+            "adjustment": "تسوية",
+            "return": "إرجاع"
+        },
+        "fromWarehouse": "من مستودع",
+        "toWarehouse": "إلى مستودع",
+        "movementDate": "تاريخ الحركة",
+        "referenceNo": "رقم المرجع",
+        "reason": "السبب",
+        "approvedBy": "اعتمد بواسطة"
+    },
+    "requests": {
+        "title": "طلبات المواد",
+        "request": "طلب",
+        "addRequest": "إضافة طلب",
+        "requestNo": "رقم الطلب",
+        "requestDate": "تاريخ الطلب",
+        "requester": "الطالب",
+        "department": "القسم",
+        "priority": {
+            "title": "الأولوية",
+            "low": "منخفضة",
+            "medium": "متوسطة",
+            "high": "عالية",
+            "urgent": "عاجلة"
+        },
+        "status": {
+            "pending": "قيد الانتظار",
+            "approved": "موافق عليه",
+            "rejected": "مرفوض",
+            "inProgress": "قيد التنفيذ",
+            "completed": "مكتمل",
+            "cancelled": "ملغي"
+        }
+    },
+    "suppliers": {
+        "title": "الموردين",
+        "supplier": "مورد",
+        "addSupplier": "إضافة مورد",
+        "editSupplier": "تعديل مورد",
+        "supplierName": "اسم المورد",
+        "supplierCode": "رمز المورد",
+        "contactPerson": "جهة الاتصال",
+        "phone": "الهاتف",
+        "email": "البريد الإلكتروني",
+        "address": "العنوان",
+        "taxNumber": "الرقم الضريبي",
+        "paymentTerms": "شروط الدفع"
+    },
+    "reports": {
+        "title": "التقارير",
+        "stockReport": "تقرير المخزون",
+        "movementReport": "تقرير الحركات",
+        "valuationReport": "تقرير التقييم",
+        "lowStockReport": "تقرير المخزون المنخفض",
+        "expiryReport": "تقرير الصلاحية"
+    },
+    "stats": {
+        "totalItems": "إجمالي الأصناف",
+        "totalValue": "إجمالي القيمة",
+        "lowStockItems": "أصناف منخفضة",
+        "pendingRequests": "طلبات معلقة",
+        "todayMovements": "حركات اليوم"
+    },
+    "messages": {
+        "itemAdded": "تمت إضافة الصنف بنجاح",
+        "itemUpdated": "تم تحديث الصنف بنجاح",
+        "itemDeleted": "تم حذف الصنف بنجاح",
+        "movementRecorded": "تم تسجيل الحركة بنجاح",
+        "requestSubmitted": "تم تقديم الطلب بنجاح",
+        "confirmDelete": "هل أنت متأكد من حذف هذا الصنف؟",
+        "insufficientStock": "الكمية المطلوبة غير متوفرة",
+        "stockUpdated": "تم تحديث المخزون بنجاح"
+    }
+}

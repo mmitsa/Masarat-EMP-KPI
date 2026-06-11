@@ -1,0 +1,98 @@
+{
+    "title": "الموارد البشرية",
+    "modules": {
+        "employees": "الموظفون",
+        "departments": "الأقسام",
+        "leaves": "الإجازات",
+        "attendance": "الحضور والانصراف",
+        "payroll": "الرواتب",
+        "performance": "الأداء",
+        "clearance": "إخلاء الطرف",
+        "promotions": "الترقيات"
+    },
+    "employees": {
+        "title": "إدارة الموظفين",
+        "addEmployee": "إضافة موظف",
+        "editEmployee": "تعديل بيانات الموظف",
+        "employeeDetails": "تفاصيل الموظف",
+        "totalEmployees": "إجمالي الموظفين",
+        "activeEmployees": "الموظفون النشطون",
+        "newHires": "التعيينات الجديدة",
+        "fields": {
+            "employeeId": "الرقم الوظيفي",
+            "name": "الاسم",
+            "nameAr": "الاسم بالعربية",
+            "nameEn": "الاسم بالإنجليزية",
+            "nationalId": "رقم الهوية",
+            "email": "البريد الإلكتروني",
+            "phone": "رقم الجوال",
+            "department": "القسم",
+            "position": "المسمى الوظيفي",
+            "hireDate": "تاريخ التعيين",
+            "salary": "الراتب",
+            "status": "الحالة",
+            "manager": "المدير المباشر",
+            "nationality": "الجنسية",
+            "gender": "الجنس",
+            "birthDate": "تاريخ الميلاد",
+            "address": "العنوان"
+        }
+    },
+    "leaves": {
+        "title": "إدارة الإجازات",
+        "newRequest": "طلب إجازة جديد",
+        "myRequests": "طلباتي",
+        "pendingApprovals": "الاعتمادات المعلقة",
+        "balance": "رصيد الإجازات",
+        "types": {
+            "annual": "إجازة سنوية",
+            "sick": "إجازة مرضية",
+            "emergency": "إجازة طارئة",
+            "maternity": "إجازة أمومة",
+            "paternity": "إجازة أبوة",
+            "unpaid": "إجازة بدون راتب",
+            "hajj": "إجازة حج"
+        },
+        "fields": {
+            "type": "نوع الإجازة",
+            "startDate": "تاريخ البداية",
+            "endDate": "تاريخ النهاية",
+            "days": "عدد الأيام",
+            "reason": "السبب",
+            "substitute": "الموظف البديل",
+            "attachment": "المرفقات"
+        },
+        "status": {
+            "pending": "قيد الانتظار",
+            "approved": "معتمدة",
+            "rejected": "مرفوضة",
+            "cancelled": "ملغاة"
+        }
+    },
+    "attendance": {
+        "title": "الحضور والانصراف",
+        "checkIn": "تسجيل الحضور",
+        "checkOut": "تسجيل الانصراف",
+        "lateArrivals": "التأخيرات",
+        "earlyDepartures": "الخروج المبكر",
+        "absences": "الغياب",
+        "workingHours": "ساعات العمل",
+        "overtime": "العمل الإضافي"
+    },
+    "payroll": {
+        "title": "الرواتب",
+        "monthlySalaries": "الرواتب الشهرية",
+        "basicSalary": "الراتب الأساسي",
+        "allowances": "البدلات",
+        "deductions": "الخصومات",
+        "netSalary": "صافي الراتب",
+        "payslip": "كشف الراتب"
+    },
+    "departments": {
+        "title": "إدارة الأقسام",
+        "addDepartment": "إضافة قسم",
+        "departmentName": "اسم القسم",
+        "manager": "مدير القسم",
+        "employeesCount": "عدد الموظفين"
+    }
+}

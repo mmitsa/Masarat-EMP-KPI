@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اختبار واجهات API - الموارد البشرية</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 { color: #2563eb; margin-top: 0; }
+        h2 { color: #1e40af; border-bottom: 2px solid #dbeafe; padding-bottom: 10px; }
+        button {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 14px;
+        }
+        button:hover { background: #1d4ed8; }
+        button.delete { background: #dc2626; }
+        button.delete:hover { background: #b91c1c; }
+        .result {
+            background: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+            padding: 15px;
+            margin-top: 10px;
+            white-space: pre-wrap;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .success { border-color: #10b981; background: #d1fae5; }
+        .error { border-color: #ef4444; background: #fee2e2; }
+        .input-group {
+            margin: 10px 0;
+        }
+        label {
+            display: inline-block;
+            width: 150px;
+            font-weight: bold;
+        }
+        input, select {
+            padding: 8px;
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+            width: 300px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 اختبار واجهات API - الموارد البشرية</h1>
+
+    <!-- الأقسام -->
+    <div class="container">
+        <h2>📁 الأقسام (Departments)</h2>
+        <button onclick="testGetDepartments()">GET - قائمة الأقسام</button>
+        <button onclick="testGetDepartment()">GET - قسم محدد (ID: 1)</button>
+        <button onclick="testCreateDepartment()">POST - إنشاء قسم</button>
+        <button onclick="testUpdateDepartment()">PUT - تحديث قسم (ID: 1)</button>
+        <button class="delete" onclick="testDeleteDepartment()">DELETE - حذف قسم (ID: 999)</button>
+        <div id="dept-result" class="result"></div>
+    </div>
+
+    <!-- الموظفون -->
+    <div class="container">
+        <h2>👥 الموظفون (Employees)</h2>
+        <button onclick="testGetEmployees()">GET - قائمة الموظفين</button>
+        <button onclick="testGetEmployee()">GET - موظف محدد (ID: 1)</button>
+        <button onclick="testSearchEmployees()">GET - بحث (محمد)</button>
+        <div id="emp-result" class="result"></div>
+    </div>
+
+    <!-- الحضور -->
+    <div class="container">
+        <h2>⏰ الحضور (Attendance)</h2>
+        <div class="input-group">
+            <label for="att-emp-id">رقم الموظف:</label>
+            <input type="number" id="att-emp-id" value="1" title="رقم الموظف" placeholder="أدخل رقم الموظف">
+        </div>
+        <button onclick="testGetAttendance()">GET - سجلات الحضور</button>
+        <button onclick="testCheckIn()">POST - تسجيل دخول</button>
+        <button onclick="testCheckOut()">PATCH - تسجيل خروج</button>
+        <div id="att-result" class="result"></div>
+    </div>
+
+    <!-- الإجازات -->
+    <div class="container">
+        <h2>🏖️ الإجازات (Leaves)</h2>
+        <div class="input-group">
+            <label for="leave-status">الحالة:</label>
+            <select id="leave-status" title="حالة الإجازة">
+                <option value="">الكل</option>
+                <option value="pending">قيد الانتظار</option>
+                <option value="approved">موافق عليها</option>
+                <option value="rejected">مرفوضة</option>
+            </select>
+        </div>
+        <button onclick="testGetLeaves()">GET - قائمة الإجازات</button>
+        <button onclick="testRequestLeave()">POST - طلب إجازة</button>
+        <button onclick="testApproveLeave()">PUT - موافقة (ID: 1)</button>
+        <button onclick="testRejectLeave()">PUT - رفض (ID: 1)</button>
+        <div id="leave-result" class="result"></div>
+    </div>
+
+    <!-- الرواتب -->
+    <div class="container">
+        <h2>💰 الرواتب (Salaries)</h2>
+        <div class="input-group">
+            <label for="sal-month">الشهر:</label>
+            <input type="number" id="sal-month" value="1" min="1" max="12" title="الشهر" placeholder="1-12">
+            <label for="sal-year">السنة:</label>
+            <input type="number" id="sal-year" value="2026" title="السنة" placeholder="السنة">
+        </div>
+        <button onclick="testGetSalaries()">GET - سجلات الرواتب</button>
+        <div id="sal-result" class="result"></div>
+    </div>
+
+    <script>
+        const BASE_URL = 'http://localhost:3002/api/hr';
+
+        async function apiCall(url, options = {}) {
+            try {
+                const response = await fetch(url, {
+                    ...options,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        ...options.headers
+                    }
+                });
+                const data = await response.json();
+                return { ok: response.ok, status: response.status, data };
+            } catch (error) {
+                return { ok: false, error: error.message };
+            }
+        }
+
+        function showResult(elementId, result) {
+            const el = document.getElementById(elementId);
+            el.className = 'result ' + (result.ok ? 'success' : 'error');
+            el.textContent = JSON.stringify(result, null, 2);
+        }
+
+        // الأقسام
+        async function testGetDepartments() {
+            const result = await apiCall(`${BASE_URL}/departments`);
+            showResult('dept-result', result);
+        }
+
+        async function testGetDepartment() {
+            const result = await apiCall(`${BASE_URL}/departments/1`);
+            showResult('dept-result', result);
+        }
+
+        async function testCreateDepartment() {
+            const result = await apiCall(`${BASE_URL}/departments`, {
+                method: 'POST',
+                body: JSON.stringify({
+                    name: 'قسم تجريبي ' + Date.now(),
+                    code: 'TEST' + Date.now(),
+                    description: 'قسم للاختبار'
+                })
+            });
+            showResult('dept-result', result);
+        }
+
+        async function testUpdateDepartment() {
+            const result = await apiCall(`${BASE_URL}/departments/1`, {
+                method: 'PUT',
+                body: JSON.stringify({
+                    name: 'قسم محدّث',
+                    description: 'تم التحديث في ' + new Date().toLocaleString('ar')
+                })
+            });
+            showResult('dept-result', result);
+        }
+
+        async function testDeleteDepartment() {
+            if (!confirm('هل تريد حذف القسم رقم 999؟')) return;
+            const result = await apiCall(`${BASE_URL}/departments/999`, { method: 'DELETE' });
+            showResult('dept-result', result);
+        }
+
+        // الموظفون
+        async function testGetEmployees() {
+            const result = await apiCall(`${BASE_URL}/employees?page=1&pageSize=10`);
+            showResult('emp-result', result);
+        }
+
+        async function testGetEmployee() {
+            const result = await apiCall(`${BASE_URL}/employees/1`);
+            showResult('emp-result', result);
+        }
+
+        async function testSearchEmployees() {
+            const result = await apiCall(`${BASE_URL}/employees?search=محمد`);
+            showResult('emp-result', result);
+        }
+
+        // الحضور
+        async function testGetAttendance() {
+            const empId = document.getElementById('att-emp-id').value;
+            const result = await apiCall(`${BASE_URL}/attendance?employeeId=${empId}&page=1&pageSize=20`);
+            showResult('att-result', result);
+        }
+
+        async function testCheckIn() {
+            const empId = document.getElementById('att-emp-id').value;
+            const now = new Date();
+            const result = await apiCall(`${BASE_URL}/attendance`, {
+                method: 'POST',
+                body: JSON.stringify({
+                    employee_id: parseInt(empId),
+                    date: now.toISOString().split('T')[0],
+                    check_in: now.toTimeString().slice(0, 5),
+                    status: 'present'
+                })
+            });
+            showResult('att-result', result);
+        }
+
+        async function testCheckOut() {
+            const empId = document.getElementById('att-emp-id').value;
+            const now = new Date();
+            const result = await apiCall(`${BASE_URL}/attendance`, {
+                method: 'PATCH',
+                body: JSON.stringify({
+                    employee_id: parseInt(empId),
+                    check_out: now.toTimeString().slice(0, 5)
+                })
+            });
+            showResult('att-result', result);
+        }
+
+        // الإجازات
+        async function testGetLeaves() {
+            const status = document.getElementById('leave-status').value;
+            const url = `${BASE_URL}/leaves${status ? '?status=' + status : ''}`;
+            const result = await apiCall(url);
+            showResult('leave-result', result);
+        }
+
+        async function testRequestLeave() {
+            const result = await apiCall(`${BASE_URL}/leaves`, {
+                method: 'POST',
+                body: JSON.stringify({
+                    employee_id: 1,
+                    leave_type: 'annual',
+                    start_date: '2026-02-01',
+                    end_date: '2026-02-05',
+                    days_count: 5,
+                    reason: 'إجازة سنوية - اختبار'
+                })
+            });
+            showResult('leave-result', result);
+        }
+
+        async function testApproveLeave() {
+            const result = await apiCall(`${BASE_URL}/leaves/1`, {
+                method: 'PUT',
+                body: JSON.stringify({
+                    status: 'approved',
+                    notes: 'تمت الموافقة - اختبار'
+                })
+            });
+            showResult('leave-result', result);
+        }
+
+        async function testRejectLeave() {
+            const result = await apiCall(`${BASE_URL}/leaves/1`, {
+                method: 'PUT',
+                body: JSON.stringify({
+                    status: 'rejected',
+                    reason: 'تم الرفض - اختبار'
+                })
+            });
+            showResult('leave-result', result);
+        }
+
+        // الرواتب
+        async function testGetSalaries() {
+            const month = document.getElementById('sal-month').value;
+            const year = document.getElementById('sal-year').value;
+            const result = await apiCall(`${BASE_URL}/salaries?month=${month}&year=${year}`);
+            showResult('sal-result', result);
+        }
+
+        // اختبار اتصال عند التحميل
+        window.onload = () => {
+            console.log('🚀 صفحة الاختبار جاهزة على:', BASE_URL);
+        };
+    </script>
+</body>
+</html>

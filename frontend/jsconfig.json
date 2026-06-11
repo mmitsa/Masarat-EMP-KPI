@@ -1,0 +1,48 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./*"],
+      "@/lib/*": ["./lib/*"],
+      "@/components/*": ["./components/*"],
+      "@/pages/*": ["./pages/*"],
+      "@/services/*": ["./services/*"],
+      "@/styles/*": ["./styles/*"],
+      "@/context/*": ["./context/*"],
+      "@/hooks/*": ["./hooks/*"]
+    },
+    "target": "es2020",
+    "useDefineForClassFields": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "checkJs": false,
+    "allowImportingTsExtensions": true,
+    "noEmit": true
+  },
+  "include": [
+    "pages/**/*.{js,jsx,ts,tsx}",
+    "components/**/*.{js,jsx,ts,tsx}",
+    "lib/**/*.{js,jsx,ts,tsx}",
+    "services/**/*.{js,jsx,ts,tsx}",
+    "context/**/*.{js,jsx,ts,tsx}",
+    "hooks/**/*.{js,jsx,ts,tsx}",
+    "styles/**/*.{js,jsx,ts,tsx}"
+  ],
+  "exclude": [
+    "node_modules",
+    ".next",
+    "out",
+    "dist",
+    "build",
+    ".git",
+    "public",
+    "backup_before_unified_dashboard",
+    "archive",
+    "coverage",
+    ".vs",
+    ".vscode"
+  ]
+}

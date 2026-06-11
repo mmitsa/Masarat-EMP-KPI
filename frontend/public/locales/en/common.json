@@ -1,0 +1,130 @@
+{
+    "app": {
+        "name": "Masarat Platform",
+        "description": "Integrated Enterprise Management System",
+        "version": "2.0"
+    },
+    "nav": {
+        "dashboard": "Dashboard",
+        "hr": "Human Resources",
+        "warehouse": "Warehouse",
+        "movement": "Fleet Management",
+        "finance": "Finance",
+        "archiving": "Archiving",
+        "analytics": "Analytics",
+        "settings": "Settings",
+        "notifications": "Notifications",
+        "messages": "Messages",
+        "profile": "Profile",
+        "logout": "Logout",
+        "search": "Search..."
+    },
+    "actions": {
+        "add": "Add",
+        "edit": "Edit",
+        "delete": "Delete",
+        "save": "Save",
+        "cancel": "Cancel",
+        "confirm": "Confirm",
+        "close": "Close",
+        "search": "Search",
+        "filter": "Filter",
+        "export": "Export",
+        "import": "Import",
+        "print": "Print",
+        "refresh": "Refresh",
+        "view": "View",
+        "details": "Details",
+        "back": "Back",
+        "next": "Next",
+        "previous": "Previous",
+        "submit": "Submit",
+        "approve": "Approve",
+        "reject": "Reject",
+        "download": "Download",
+        "upload": "Upload"
+    },
+    "status": {
+        "active": "Active",
+        "inactive": "Inactive",
+        "pending": "Pending",
+        "approved": "Approved",
+        "rejected": "Rejected",
+        "completed": "Completed",
+        "cancelled": "Cancelled",
+        "draft": "Draft",
+        "inProgress": "In Progress"
+    },
+    "messages": {
+        "success": "Operation completed successfully",
+        "error": "An error occurred",
+        "warning": "Warning",
+        "info": "Information",
+        "loading": "Loading...",
+        "noData": "No data available",
+        "confirmDelete": "Are you sure you want to delete?",
+        "savedSuccessfully": "Saved successfully",
+        "deletedSuccessfully": "Deleted successfully",
+        "updatedSuccessfully": "Updated successfully",
+        "errorOccurred": "An error occurred, please try again"
+    },
+    "time": {
+        "today": "Today",
+        "yesterday": "Yesterday",
+        "tomorrow": "Tomorrow",
+        "thisWeek": "This Week",
+        "thisMonth": "This Month",
+        "thisYear": "This Year",
+        "days": "days",
+        "hours": "hours",
+        "minutes": "minutes",
+        "seconds": "seconds"
+    },
+    "pagination": {
+        "showing": "Showing",
+        "of": "of",
+        "entries": "entries",
+        "page": "Page",
+        "perPage": "per page",
+        "first": "First",
+        "last": "Last"
+    },
+    "table": {
+        "actions": "Actions",
+        "noResults": "No results found",
+        "selectAll": "Select All",
+        "selected": "selected"
+    },
+    "form": {
+        "required": "This field is required",
+        "invalid": "Invalid value",
+        "minLength": "Minimum {{min}} characters",
+        "maxLength": "Maximum {{max}} characters",
+        "email": "Invalid email address",
+        "phone": "Invalid phone number",
+        "select": "Select...",
+        "selectOption": "Select an option"
+    },
+    "language": {
+        "title": "Language",
+        "arabic": "العربية",
+        "english": "English",
+        "switchTo": "Switch to"
+    },
+    "theme": {
+        "light": "Light",
+        "dark": "Dark",
+        "system": "System"
+    },
+    "user": {
+        "welcome": "Welcome",
+        "guest": "Guest",
+        "role": "Role",
+        "department": "Department",
+        "lastLogin": "Last login"
+    },
+    "footer": {
+        "copyright": "All rights reserved",
+        "poweredBy": "Powered by Masarat"
+    }
+}

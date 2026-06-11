@@ -1,0 +1,130 @@
+{
+    "app": {
+        "name": "منصة مسارات",
+        "description": "نظام إدارة المؤسسات المتكامل",
+        "version": "2.0"
+    },
+    "nav": {
+        "dashboard": "لوحة التحكم",
+        "hr": "الموارد البشرية",
+        "warehouse": "المستودعات",
+        "movement": "إدارة الحركة",
+        "finance": "المالية",
+        "archiving": "الأرشفة",
+        "analytics": "التحليلات",
+        "settings": "الإعدادات",
+        "notifications": "الإشعارات",
+        "messages": "الرسائل",
+        "profile": "الملف الشخصي",
+        "logout": "تسجيل الخروج",
+        "search": "بحث..."
+    },
+    "actions": {
+        "add": "إضافة",
+        "edit": "تعديل",
+        "delete": "حذف",
+        "save": "حفظ",
+        "cancel": "إلغاء",
+        "confirm": "تأكيد",
+        "close": "إغلاق",
+        "search": "بحث",
+        "filter": "تصفية",
+        "export": "تصدير",
+        "import": "استيراد",
+        "print": "طباعة",
+        "refresh": "تحديث",
+        "view": "عرض",
+        "details": "التفاصيل",
+        "back": "رجوع",
+        "next": "التالي",
+        "previous": "السابق",
+        "submit": "إرسال",
+        "approve": "اعتماد",
+        "reject": "رفض",
+        "download": "تحميل",
+        "upload": "رفع"
+    },
+    "status": {
+        "active": "نشط",
+        "inactive": "غير نشط",
+        "pending": "قيد الانتظار",
+        "approved": "معتمد",
+        "rejected": "مرفوض",
+        "completed": "مكتمل",
+        "cancelled": "ملغي",
+        "draft": "مسودة",
+        "inProgress": "قيد التنفيذ"
+    },
+    "messages": {
+        "success": "تمت العملية بنجاح",
+        "error": "حدث خطأ",
+        "warning": "تحذير",
+        "info": "معلومة",
+        "loading": "جاري التحميل...",
+        "noData": "لا توجد بيانات",
+        "confirmDelete": "هل أنت متأكد من الحذف؟",
+        "savedSuccessfully": "تم الحفظ بنجاح",
+        "deletedSuccessfully": "تم الحذف بنجاح",
+        "updatedSuccessfully": "تم التحديث بنجاح",
+        "errorOccurred": "حدث خطأ، يرجى المحاولة مرة أخرى"
+    },
+    "time": {
+        "today": "اليوم",
+        "yesterday": "أمس",
+        "tomorrow": "غداً",
+        "thisWeek": "هذا الأسبوع",
+        "thisMonth": "هذا الشهر",
+        "thisYear": "هذا العام",
+        "days": "أيام",
+        "hours": "ساعات",
+        "minutes": "دقائق",
+        "seconds": "ثواني"
+    },
+    "pagination": {
+        "showing": "عرض",
+        "of": "من",
+        "entries": "سجل",
+        "page": "صفحة",
+        "perPage": "لكل صفحة",
+        "first": "الأولى",
+        "last": "الأخيرة"
+    },
+    "table": {
+        "actions": "الإجراءات",
+        "noResults": "لا توجد نتائج",
+        "selectAll": "تحديد الكل",
+        "selected": "محدد"
+    },
+    "form": {
+        "required": "هذا الحقل مطلوب",
+        "invalid": "قيمة غير صالحة",
+        "minLength": "الحد الأدنى {{min}} حرف",
+        "maxLength": "الحد الأقصى {{max}} حرف",
+        "email": "بريد إلكتروني غير صالح",
+        "phone": "رقم هاتف غير صالح",
+        "select": "اختر...",
+        "selectOption": "اختر خياراً"
+    },
+    "language": {
+        "title": "اللغة",
+        "arabic": "العربية",
+        "english": "English",
+        "switchTo": "تغيير إلى"
+    },
+    "theme": {
+        "light": "فاتح",
+        "dark": "داكن",
+        "system": "تلقائي"
+    },
+    "user": {
+        "welcome": "مرحباً",
+        "guest": "زائر",
+        "role": "الدور",
+        "department": "القسم",
+        "lastLogin": "آخر تسجيل دخول"
+    },
+    "footer": {
+        "copyright": "جميع الحقوق محفوظة",
+        "poweredBy": "مدعوم من مسارات"
+    }
+}

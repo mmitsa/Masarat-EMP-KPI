@@ -1,0 +1,98 @@
+{
+    "title": "Human Resources",
+    "modules": {
+        "employees": "Employees",
+        "departments": "Departments",
+        "leaves": "Leaves",
+        "attendance": "Attendance",
+        "payroll": "Payroll",
+        "performance": "Performance",
+        "clearance": "Clearance",
+        "promotions": "Promotions"
+    },
+    "employees": {
+        "title": "Employee Management",
+        "addEmployee": "Add Employee",
+        "editEmployee": "Edit Employee",
+        "employeeDetails": "Employee Details",
+        "totalEmployees": "Total Employees",
+        "activeEmployees": "Active Employees",
+        "newHires": "New Hires",
+        "fields": {
+            "employeeId": "Employee ID",
+            "name": "Name",
+            "nameAr": "Arabic Name",
+            "nameEn": "English Name",
+            "nationalId": "National ID",
+            "email": "Email",
+            "phone": "Phone",
+            "department": "Department",
+            "position": "Position",
+            "hireDate": "Hire Date",
+            "salary": "Salary",
+            "status": "Status",
+            "manager": "Manager",
+            "nationality": "Nationality",
+            "gender": "Gender",
+            "birthDate": "Birth Date",
+            "address": "Address"
+        }
+    },
+    "leaves": {
+        "title": "Leave Management",
+        "newRequest": "New Leave Request",
+        "myRequests": "My Requests",
+        "pendingApprovals": "Pending Approvals",
+        "balance": "Leave Balance",
+        "types": {
+            "annual": "Annual Leave",
+            "sick": "Sick Leave",
+            "emergency": "Emergency Leave",
+            "maternity": "Maternity Leave",
+            "paternity": "Paternity Leave",
+            "unpaid": "Unpaid Leave",
+            "hajj": "Hajj Leave"
+        },
+        "fields": {
+            "type": "Leave Type",
+            "startDate": "Start Date",
+            "endDate": "End Date",
+            "days": "Number of Days",
+            "reason": "Reason",
+            "substitute": "Substitute Employee",
+            "attachment": "Attachments"
+        },
+        "status": {
+            "pending": "Pending",
+            "approved": "Approved",
+            "rejected": "Rejected",
+            "cancelled": "Cancelled"
+        }
+    },
+    "attendance": {
+        "title": "Attendance",
+        "checkIn": "Check In",
+        "checkOut": "Check Out",
+        "lateArrivals": "Late Arrivals",
+        "earlyDepartures": "Early Departures",
+        "absences": "Absences",
+        "workingHours": "Working Hours",
+        "overtime": "Overtime"
+    },
+    "payroll": {
+        "title": "Payroll",
+        "monthlySalaries": "Monthly Salaries",
+        "basicSalary": "Basic Salary",
+        "allowances": "Allowances",
+        "deductions": "Deductions",
+        "netSalary": "Net Salary",
+        "payslip": "Payslip"
+    },
+    "departments": {
+        "title": "Department Management",
+        "addDepartment": "Add Department",
+        "departmentName": "Department Name",
+        "manager": "Department Manager",
+        "employeesCount": "Employees Count"
+    }
+}

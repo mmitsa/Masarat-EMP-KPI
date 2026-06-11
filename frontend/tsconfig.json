@@ -1,0 +1,60 @@
+{
+  "compilerOptions": {
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": false,
+    "noUncheckedIndexedAccess": false,
+    "noEmit": true,
+    "incremental": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "target": "ES2017",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./"],
+      "@/lib/*": ["./lib/*"],
+      "@/components/*": ["./components/*"],
+      "@/pages/*": ["./pages/*"],
+      "@/services/*": ["./services/*"],
+      "@/styles/*": ["./styles/*"],
+      "@/context/*": ["./context/*"],
+      "@/hooks/*": ["./hooks/*"]
+    },
+    "allowImportingTsExtensions": true,
+    "importsNotUsedAsValues": "remove"
+  },
+  "include": [
+    "next-env.d.ts",
+    "pages/**/*.{ts,tsx}",
+    "components/**/*.{ts,tsx}",
+    "lib/**/*.{ts,tsx}",
+    "services/**/*.{ts,tsx}",
+    "context/**/*.{ts,tsx}",
+    "hooks/**/*.{ts,tsx}"
+  ],
+  "exclude": [
+    "node_modules",
+    ".next",
+    "out",
+    "dist",
+    "build",
+    ".git",
+    "public",
+    "backup_before_unified_dashboard",
+    "archive",
+    "coverage",
+    ".vs",
+    ".vscode",
+    "**/*.spec.ts",
+    "**/*.test.ts"
+  ]
+}

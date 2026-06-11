@@ -1,0 +1,236 @@
+namespace Masarat.Events.Sagas;
+
+using MassTransit;
+using Masarat.Events.Contracts;
+using Masarat.Events.HR;
+using Masarat.Events.Warehouse;
+using Masarat.Events.Movement;
+
+/// <summary>
+/// Saga state for employee onboarding process
+/// حالة سير العمل لعملية تأهيل الموظف
+/// </summary>
+public class EmployeeOnboardingState : SagaStateMachineInstance
+{
+    public Guid CorrelationId { get; set; }
+    public string CurrentState { get; set; } = default!;
+    
+    // Employee Information
+    public int EmployeeId { get; set; }
+    public string FullName { get; set; } = default!;
+    public string Email { get; set; } = default!;
+    
+    // Onboarding Steps Status
+    public bool EmployeeCreated { get; set; }
+    public bool EquipmentAssigned { get; set; }
+    public bool AccessGranted { get; set; }
+    public bool VehicleAssigned { get; set; }
+    
+    // Timestamps
+    public DateTime StartedAt { get; set; }
+    public DateTime? CompletedAt { get; set; }
+    
+    // Failure Handling
+    public int RetryCount { get; set; }
+    public string? FailureReason { get; set; }
+}
+
+/// <summary>
+/// Saga orchestrating employee onboarding process
+/// تنسيق عملية تأهيل الموظف
+/// </summary>
+public class EmployeeOnboardingSaga : MassTransitStateMachine<EmployeeOnboardingState>
+{
+    public EmployeeOnboardingSaga()
+    {
+        InstanceState(x => x.CurrentState);
+        
+        // Define events with proper correlation
+        Event(() => EmployeeCreated, x => x.CorrelateBy((state, context) => 
+            state.CorrelationId == context.Message.CorrelationId)
+            .SelectId(context => Guid.Parse(context.Message.CorrelationId ?? Guid.NewGuid().ToString())));
+            
+        Event(() => EquipmentAssigned, x => x.CorrelateBy((state, context) => 
+            state.CorrelationId == context.Message.CorrelationId));
+            
+        Event(() => AccessGranted, x => x.CorrelateBy((state, context) => 
+            state.CorrelationId == context.Message.CorrelationId));
+            
+        Event(() => VehicleAssigned, x => x.CorrelateBy((state, context) => 
+            state.CorrelationId == context.Message.CorrelationId));
+            
+        Event(() => OnboardingFailed, x => x.CorrelateBy((state, context) => 
+            state.CorrelationId == context.Message.CorrelationId));
+        
+        // Define state machine
+        Initially(
+            When(EmployeeCreated)
+                .Then(context =>
+                {
+                    context.Saga.EmployeeId = context.Message.EmployeeId;
+                    context.Saga.FullName = context.Message.FullName;
+                    context.Saga.Email = context.Message.Email;
+                    context.Saga.EmployeeCreated = true;
+                    context.Saga.StartedAt = DateTime.UtcNow;
+                })
+                .TransitionTo(WaitingForEquipment)
+                .Publish(context => new AssignEquipmentCommand
+                {
+                    EmployeeId = context.Saga.EmployeeId,
+                    FullName = context.Saga.FullName,
+                    Email = context.Saga.Email,
+                    IssuedBy = "OnboardingSaga",
+                    CorrelationId = context.Saga.CorrelationId.ToString()
+                })
+        );
+        
+        During(WaitingForEquipment,
+            When(EquipmentAssigned)
+                .Then(context =>
+                {
+                    context.Saga.EquipmentAssigned = true;
+                })
+                .TransitionTo(WaitingForAccess)
+                .Publish(context => new GrantAccessCommand
+                {
+                    EmployeeId = context.Saga.EmployeeId,
+                    Email = context.Saga.Email,
+                    IssuedBy = "OnboardingSaga",
+                    CorrelationId = context.Saga.CorrelationId.ToString()
+                })
+        );
+        
+        During(WaitingForAccess,
+            When(AccessGranted)
+                .Then(context =>
+                {
+                    context.Saga.AccessGranted = true;
+                })
+                .TransitionTo(WaitingForVehicle)
+                .Publish(context => new AssignVehicleCommand
+                {
+                    EmployeeId = context.Saga.EmployeeId,
+                    FullName = context.Saga.FullName,
+                    IssuedBy = "OnboardingSaga",
+                    CorrelationId = context.Saga.CorrelationId.ToString()
+                })
+        );
+        
+        During(WaitingForVehicle,
+            When(VehicleAssigned)
+                .Then(context =>
+                {
+                    context.Saga.VehicleAssigned = true;
+                    context.Saga.CompletedAt = DateTime.UtcNow;
+                })
+                .TransitionTo(Completed)
+                .Publish(context => new EmployeeOnboardingCompletedEvent
+                {
+                    EmployeeId = context.Saga.EmployeeId,
+                    FullName = context.Saga.FullName,
+                    CompletedAt = context.Saga.CompletedAt!.Value,
+                    DurationMinutes = (int)(context.Saga.CompletedAt!.Value - context.Saga.StartedAt).TotalMinutes,
+                    TriggeredBy = "OnboardingSaga",
+                    CorrelationId = context.Saga.CorrelationId.ToString()
+                })
+                .Finalize()
+        );
+        
+        // Handle failures in any state
+        DuringAny(
+            When(OnboardingFailed)
+                .Then(context =>
+                {
+                    context.Saga.RetryCount++;
+                    context.Saga.FailureReason = context.Message.Reason;
+                })
+                .If(context => context.Saga.RetryCount < 3,
+                    x => x.TransitionTo(Retrying))
+                .If(context => context.Saga.RetryCount >= 3,
+                    x => x.TransitionTo(Failed)
+                        .Publish(context => new EmployeeOnboardingFailedEvent
+                        {
+                            EmployeeId = context.Saga.EmployeeId,
+                            FullName = context.Saga.FullName,
+                            Reason = context.Saga.FailureReason!,
+                            RetryCount = context.Saga.RetryCount,
+                            TriggeredBy = "OnboardingSaga",
+                            CorrelationId = context.Saga.CorrelationId.ToString()
+                        })
+                        .Finalize())
+        );
+        
+        SetCompletedWhenFinalized();
+    }
+    
+    // States
+    public State WaitingForEquipment { get; private set; } = default!;
+    public State WaitingForAccess { get; private set; } = default!;
+    public State WaitingForVehicle { get; private set; } = default!;
+    public State Completed { get; private set; } = default!;
+    public State Failed { get; private set; } = default!;
+    public State Retrying { get; private set; } = default!;
+    
+    // Events
+    public Event<EmployeeCreatedEvent> EmployeeCreated { get; private set; } = default!;
+    public Event<EquipmentAssignedEvent> EquipmentAssigned { get; private set; } = default!;
+    public Event<AccessGrantedEvent> AccessGranted { get; private set; } = default!;
+    public Event<VehicleAssignedEvent> VehicleAssigned { get; private set; } = default!;
+    public Event<OnboardingFailedEvent> OnboardingFailed { get; private set; } = default!;
+}
+
+// Commands
+public record AssignEquipmentCommand : Command
+{
+    public required int EmployeeId { get; init; }
+    public required string FullName { get; init; }
+    public required string Email { get; init; }
+}
+
+public record GrantAccessCommand : Command
+{
+    public required int EmployeeId { get; init; }
+    public required string Email { get; init; }
+}
+
+public record AssignVehicleCommand : Command
+{
+    public required int EmployeeId { get; init; }
+    public required string FullName { get; init; }
+}
+
+// Events
+public record EquipmentAssignedEvent : DomainEvent
+{
+    public required int EmployeeId { get; init; }
+    public required List<string> AssignedItems { get; init; }
+}
+
+public record AccessGrantedEvent : DomainEvent
+{
+    public required int EmployeeId { get; init; }
+    public required string Email { get; init; }
+    public required List<string> AccessRoles { get; init; }
+}
+
+public record EmployeeOnboardingCompletedEvent : DomainEvent
+{
+    public required int EmployeeId { get; init; }
+    public required string FullName { get; init; }
+    public required DateTime CompletedAt { get; init; }
+    public required int DurationMinutes { get; init; }
+}
+
+public record EmployeeOnboardingFailedEvent : DomainEvent
+{
+    public required int EmployeeId { get; init; }
+    public required string FullName { get; init; }
+    public required string Reason { get; init; }
+    public required int RetryCount { get; init; }
+}
+
+public record OnboardingFailedEvent : DomainEvent
+{
+    public required int EmployeeId { get; init; }
+    public required string Reason { get; init; }
+}

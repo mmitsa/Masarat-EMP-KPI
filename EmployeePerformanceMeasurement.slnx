@@ -1,0 +1,15 @@
+<Solution>
+  <Folder Name="/backend/" />
+  <Folder Name="/backend/core/">
+    <Project Path="backend/core/Masarat.Core/Masarat.Core.csproj" />
+    <Project Path="backend/core/Masarat.Events/Masarat.Events.csproj" />
+  </Folder>
+  <Folder Name="/backend/modules/" />
+  <Folder Name="/backend/modules/epm/">
+    <Project Path="backend/modules/epm/Masarat.EPM.API/Masarat.EPM.API.csproj" />
+    <Project Path="backend/modules/epm/Masarat.EPM.Application/Masarat.EPM.Application.csproj" />
+    <Project Path="backend/modules/epm/Masarat.EPM.Domain/Masarat.EPM.Domain.csproj" />
+    <Project Path="backend/modules/epm/Masarat.EPM.Infrastructure/Masarat.EPM.Infrastructure.csproj" />
+    <Project Path="backend/modules/epm/Masarat.EPM.Tests/Masarat.EPM.Tests.csproj" />
+  </Folder>
+</Solution>

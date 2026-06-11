@@ -1,0 +1,135 @@
+{
+    "title": "Warehouse Management",
+    "subtitle": "Manage inventory and items",
+    "inventory": {
+        "title": "Inventory",
+        "items": "Items",
+        "item": "Item",
+        "addItem": "Add Item",
+        "editItem": "Edit Item",
+        "deleteItem": "Delete Item",
+        "itemDetails": "Item Details",
+        "itemCode": "Item Code",
+        "itemName": "Item Name",
+        "category": "Category",
+        "unit": "Unit",
+        "quantity": "Quantity",
+        "minQuantity": "Minimum Quantity",
+        "maxQuantity": "Maximum Quantity",
+        "reorderLevel": "Reorder Level",
+        "unitPrice": "Unit Price",
+        "totalValue": "Total Value",
+        "location": "Location",
+        "warehouse": "Warehouse",
+        "shelf": "Shelf",
+        "bin": "Bin",
+        "barcode": "Barcode",
+        "sku": "SKU",
+        "description": "Description",
+        "notes": "Notes",
+        "status": {
+            "title": "Status",
+            "inStock": "In Stock",
+            "lowStock": "Low Stock",
+            "outOfStock": "Out of Stock",
+            "expired": "Expired",
+            "reserved": "Reserved"
+        }
+    },
+    "warehouses": {
+        "title": "Warehouses",
+        "warehouse": "Warehouse",
+        "addWarehouse": "Add Warehouse",
+        "editWarehouse": "Edit Warehouse",
+        "deleteWarehouse": "Delete Warehouse",
+        "warehouseName": "Warehouse Name",
+        "warehouseCode": "Warehouse Code",
+        "address": "Address",
+        "manager": "Warehouse Manager",
+        "capacity": "Capacity",
+        "usedCapacity": "Used Capacity",
+        "availableCapacity": "Available Capacity"
+    },
+    "movements": {
+        "title": "Stock Movements",
+        "movement": "Movement",
+        "addMovement": "Add Movement",
+        "movementType": "Movement Type",
+        "types": {
+            "receive": "Receive",
+            "issue": "Issue",
+            "transfer": "Transfer",
+            "adjustment": "Adjustment",
+            "return": "Return"
+        },
+        "fromWarehouse": "From Warehouse",
+        "toWarehouse": "To Warehouse",
+        "movementDate": "Movement Date",
+        "referenceNo": "Reference No",
+        "reason": "Reason",
+        "approvedBy": "Approved By"
+    },
+    "requests": {
+        "title": "Material Requests",
+        "request": "Request",
+        "addRequest": "Add Request",
+        "requestNo": "Request No",
+        "requestDate": "Request Date",
+        "requester": "Requester",
+        "department": "Department",
+        "priority": {
+            "title": "Priority",
+            "low": "Low",
+            "medium": "Medium",
+            "high": "High",
+            "urgent": "Urgent"
+        },
+        "status": {
+            "pending": "Pending",
+            "approved": "Approved",
+            "rejected": "Rejected",
+            "inProgress": "In Progress",
+            "completed": "Completed",
+            "cancelled": "Cancelled"
+        }
+    },
+    "suppliers": {
+        "title": "Suppliers",
+        "supplier": "Supplier",
+        "addSupplier": "Add Supplier",
+        "editSupplier": "Edit Supplier",
+        "supplierName": "Supplier Name",
+        "supplierCode": "Supplier Code",
+        "contactPerson": "Contact Person",
+        "phone": "Phone",
+        "email": "Email",
+        "address": "Address",
+        "taxNumber": "Tax Number",
+        "paymentTerms": "Payment Terms"
+    },
+    "reports": {
+        "title": "Reports",
+        "stockReport": "Stock Report",
+        "movementReport": "Movement Report",
+        "valuationReport": "Valuation Report",
+        "lowStockReport": "Low Stock Report",
+        "expiryReport": "Expiry Report"
+    },
+    "stats": {
+        "totalItems": "Total Items",
+        "totalValue": "Total Value",
+        "lowStockItems": "Low Stock Items",
+        "pendingRequests": "Pending Requests",
+        "todayMovements": "Today's Movements"
+    },
+    "messages": {
+        "itemAdded": "Item added successfully",
+        "itemUpdated": "Item updated successfully",
+        "itemDeleted": "Item deleted successfully",
+        "movementRecorded": "Movement recorded successfully",
+        "requestSubmitted": "Request submitted successfully",
+        "confirmDelete": "Are you sure you want to delete this item?",
+        "insufficientStock": "Insufficient stock available",
+        "stockUpdated": "Stock updated successfully"
+    }
+}

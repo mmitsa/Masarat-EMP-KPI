@@ -1,0 +1,991 @@
+/* ============================================
+   المنصة الموحدة - الأنماط العامة
+   Government Unified Platform - Global Styles
+   تاريخ التحديث: 2026-02-03
+   ============================================ */
+
+/* استيراد نظام التصميم */
+@import './design-tokens.css';
+
+/* استيراد خطوط Google */
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+/* Tailwind */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ========== أنماط القاعدة ========== */
+@layer base {
+  /* RTL Support */
+  html {
+    direction: rtl;
+    scroll-behavior: smooth;
+  }
+
+  *,
+  *::before,
+  *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: var(--font-family-primary);
+    direction: rtl;
+    text-align: right;
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    line-height: var(--line-height-normal);
+    font-size: var(--font-size-base);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    min-height: 100vh;
+  }
+
+  /* العناوين */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-family-heading);
+    font-weight: var(--font-weight-bold);
+    color: var(--text-primary);
+    line-height: var(--line-height-tight);
+  }
+
+  h1 { font-size: var(--font-size-4xl); }
+  h2 { font-size: var(--font-size-3xl); }
+  h3 { font-size: var(--font-size-2xl); }
+  h4 { font-size: var(--font-size-xl); }
+  h5 { font-size: var(--font-size-lg); }
+  h6 { font-size: var(--font-size-base); }
+
+  /* الروابط */
+  a {
+    color: var(--gov-primary-500);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+  }
+
+  a:hover {
+    color: var(--gov-primary-600);
+  }
+
+  /* القوائم */
+  ul, ol {
+    list-style: none;
+  }
+
+  /* الصور */
+  img, svg {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* حقول الإدخال */
+  input,
+  button,
+  select,
+  textarea {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+  }
+
+  /* إزالة أزرار العداد (spinner) من حقول الأرقام - السماح بالكتابة الحرة */
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type="number"] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+  }
+
+  /* تعطيل التحديد للعناصر التفاعلية */
+  button,
+  [role="button"] {
+    cursor: pointer;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  /* التركيز للوصولية */
+  :focus-visible {
+    outline: 2px solid var(--gov-primary-500);
+    outline-offset: 2px;
+  }
+
+  /* إزالة التركيز للعناصر غير المرئية */
+  :focus:not(:focus-visible) {
+    outline: none;
+  }
+}
+
+/* ========== شريط التمرير المخصص ========== */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-tertiary);
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--gov-gray-400);
+  border-radius: var(--radius-full);
+  border: 2px solid var(--bg-tertiary);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gov-gray-500);
+}
+
+/* شريط تمرير رفيع */
+.scrollbar-thin::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+/* ========== أنماط المكونات ========== */
+@layer components {
+  /* البطاقة الأساسية */
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--card-radius);
+    box-shadow: var(--card-shadow);
+    padding: var(--card-padding);
+  }
+
+  .card-header {
+    padding-bottom: var(--spacing-4);
+    border-bottom: 1px solid var(--border-light);
+    margin-bottom: var(--spacing-4);
+  }
+
+  .card-title {
+    font-family: var(--font-family-heading);
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-primary);
+  }
+
+  .card-subtitle {
+    font-size: var(--font-size-sm);
+    color: var(--text-tertiary);
+    margin-top: var(--spacing-1);
+  }
+
+  /* زر أساسي */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-2);
+    padding: var(--spacing-3) var(--spacing-6);
+    border-radius: var(--radius-lg);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-sm);
+    transition: all var(--transition-fast);
+    border: none;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  .btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .btn-primary {
+    background: var(--btn-primary-bg);
+    color: var(--btn-primary-text);
+  }
+
+  .btn-primary:hover:not(:disabled) {
+    background: var(--btn-primary-hover);
+    box-shadow: var(--shadow-md);
+  }
+
+  .btn-primary:active:not(:disabled) {
+    background: var(--btn-primary-active);
+  }
+
+  .btn-secondary {
+    background: var(--btn-secondary-bg);
+    color: var(--btn-secondary-text);
+    border: 2px solid var(--btn-secondary-border);
+  }
+
+  .btn-secondary:hover:not(:disabled) {
+    background: var(--btn-secondary-hover);
+  }
+
+  .btn-success {
+    background: var(--btn-success-bg);
+    color: var(--btn-success-text);
+  }
+
+  .btn-success:hover:not(:disabled) {
+    background: var(--btn-success-hover);
+  }
+
+  .btn-danger {
+    background: var(--btn-danger-bg);
+    color: var(--btn-danger-text);
+  }
+
+  .btn-danger:hover:not(:disabled) {
+    background: var(--btn-danger-hover);
+  }
+
+  .btn-warning {
+    background: var(--btn-warning-bg);
+    color: var(--btn-warning-text);
+  }
+
+  .btn-warning:hover:not(:disabled) {
+    background: var(--btn-warning-hover);
+  }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--btn-ghost-text);
+  }
+
+  .btn-ghost:hover:not(:disabled) {
+    background: var(--btn-ghost-hover);
+  }
+
+  /* أحجام الأزرار */
+  .btn-xs {
+    padding: var(--spacing-1) var(--spacing-3);
+    font-size: var(--font-size-xs);
+    height: 28px;
+  }
+
+  .btn-sm {
+    padding: var(--spacing-2) var(--spacing-4);
+    font-size: var(--font-size-sm);
+    height: 32px;
+  }
+
+  .btn-md {
+    padding: var(--spacing-3) var(--spacing-6);
+    font-size: var(--font-size-sm);
+    height: 40px;
+  }
+
+  .btn-lg {
+    padding: var(--spacing-4) var(--spacing-8);
+    font-size: var(--font-size-base);
+    height: 48px;
+  }
+
+  .btn-xl {
+    padding: var(--spacing-5) var(--spacing-10);
+    font-size: var(--font-size-lg);
+    height: 56px;
+  }
+
+  /* حقل الإدخال */
+  .input-field {
+    width: 100%;
+    background: var(--input-bg);
+    border: 1px solid var(--input-border);
+    border-radius: var(--input-radius);
+    padding: var(--spacing-3) var(--spacing-4);
+    font-size: var(--font-size-sm);
+    color: var(--text-primary);
+    transition: all var(--transition-fast);
+  }
+
+  .input-field::placeholder {
+    color: var(--input-placeholder);
+  }
+
+  .input-field:hover:not(:disabled) {
+    border-color: var(--input-border-hover);
+  }
+
+  .input-field:focus {
+    outline: none;
+    border-color: var(--input-border-focus);
+    box-shadow: 0 0 0 3px rgba(22, 92, 45, 0.1);
+  }
+
+  .input-field:disabled {
+    background: var(--bg-tertiary);
+    cursor: not-allowed;
+    opacity: 0.7;
+  }
+
+  .input-field.error {
+    border-color: var(--gov-error);
+  }
+
+  .input-field.error:focus {
+    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+  }
+
+  /* التسمية */
+  .label {
+    display: block;
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-2);
+  }
+
+  .label.required::after {
+    content: ' *';
+    color: var(--gov-error);
+  }
+
+  /* رسالة الخطأ */
+  .error-message {
+    font-size: var(--font-size-xs);
+    color: var(--gov-error);
+    margin-top: var(--spacing-1);
+  }
+
+  /* رسالة المساعدة */
+  .help-text {
+    font-size: var(--font-size-xs);
+    color: var(--text-tertiary);
+    margin-top: var(--spacing-1);
+  }
+
+  /* الشارات */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-1);
+    padding: var(--spacing-1) var(--spacing-3);
+    border-radius: var(--radius-full);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+  }
+
+  .badge-success {
+    background: var(--badge-success-bg);
+    color: var(--badge-success-text);
+  }
+
+  .badge-warning {
+    background: var(--badge-warning-bg);
+    color: var(--badge-warning-text);
+  }
+
+  .badge-error {
+    background: var(--badge-error-bg);
+    color: var(--badge-error-text);
+  }
+
+  .badge-info {
+    background: var(--badge-info-bg);
+    color: var(--badge-info-text);
+  }
+
+  .badge-neutral {
+    background: var(--gov-gray-100);
+    color: var(--gov-gray-600);
+  }
+
+  /* الجداول */
+  .table-container {
+    width: 100%;
+    overflow-x: auto;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--table-border);
+  }
+
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .table th {
+    background: var(--table-header-bg);
+    color: var(--table-header-text);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: var(--spacing-3) var(--spacing-4);
+    text-align: right;
+    border-bottom: 1px solid var(--table-border);
+  }
+
+  .table td {
+    padding: var(--spacing-4);
+    border-bottom: 1px solid var(--table-border);
+    font-size: var(--font-size-sm);
+    color: var(--text-primary);
+  }
+
+  .table tr:last-child td {
+    border-bottom: none;
+  }
+
+  .table tr:hover td {
+    background: var(--table-row-hover);
+  }
+
+  .table-striped tr:nth-child(even) td {
+    background: var(--table-row-stripe);
+  }
+
+  /* التقدم */
+  .progress {
+    width: 100%;
+    height: 8px;
+    background: var(--progress-bg);
+    border-radius: var(--progress-radius);
+    overflow: hidden;
+  }
+
+  .progress-bar {
+    height: 100%;
+    background: var(--progress-fill);
+    border-radius: var(--progress-radius);
+    transition: width var(--transition-slow);
+  }
+
+  /* الفواصل */
+  .divider {
+    height: 1px;
+    background: var(--border-light);
+    margin: var(--spacing-4) 0;
+  }
+
+  .divider-vertical {
+    width: 1px;
+    height: 100%;
+    background: var(--border-light);
+    margin: 0 var(--spacing-4);
+  }
+}
+
+/* ========== أدوات مساعدة ========== */
+@layer utilities {
+  /* محاذاة RTL */
+  .text-start { text-align: start; }
+  .text-end { text-align: end; }
+
+  /* الحركات */
+  .animate-fadeIn {
+    animation: fadeIn var(--transition-normal);
+  }
+
+  .animate-slideUp {
+    animation: slideUp var(--transition-normal);
+  }
+
+  .animate-slideDown {
+    animation: slideDown var(--transition-normal);
+  }
+
+  .animate-slideRight {
+    animation: slideRight var(--transition-normal);
+  }
+
+  .animate-pulse-slow {
+    animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  .animate-bounce-slow {
+    animation: bounce 2s infinite;
+  }
+
+  /* الاختصارات */
+  .truncate-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .truncate-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* إخفاء شريط التمرير - متوافق مع جميع المتصفحات */
+  .scrollbar-hide {
+    /* IE and Edge */
+    -ms-overflow-style: none;
+    /* Firefox */
+    scrollbar-width: none;
+  }
+
+  /* Chrome, Safari and Opera */
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* زجاجي */
+  .glass {
+    background: rgba(255, 255, 255, 0.8);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+  }
+
+  .dark .glass {
+    background: rgba(15, 23, 42, 0.8);
+  }
+
+  /* ===== Dark Mode Global Input Styles ===== */
+  .dark input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([class*="dark:"]),
+  .dark textarea:not([class*="dark:"]),
+  .dark select:not([class*="dark:"]) {
+    background-color: var(--bg-secondary, #1f2937);
+    border-color: var(--border-medium, #4b5563);
+    color: var(--text-primary, #f9fafb);
+  }
+
+  .dark input::placeholder,
+  .dark textarea::placeholder {
+    color: var(--text-muted, #6b7280);
+  }
+
+  .dark input:focus,
+  .dark textarea:focus,
+  .dark select:focus {
+    border-color: var(--border-accent, #3b82f6);
+  }
+
+  .dark select option {
+    background-color: var(--bg-secondary, #1f2937);
+    color: var(--text-primary, #f9fafb);
+  }
+
+  /* ظل داخلي */
+  .shadow-inner-lg {
+    box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+  }
+
+  /* منع التحديد */
+  .no-select {
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  /* نسبة العرض */
+  .w-percentage {
+    width: var(--percentage, 0%);
+  }
+
+  /* لا تمرير أفقي */
+  .no-x-scroll {
+    overflow-x: hidden !important;
+  }
+
+  /* كسر الكلمات */
+  .wrap-anywhere {
+    overflow-wrap: anywhere !important;
+    word-break: break-word !important;
+    hyphens: auto !important;
+  }
+}
+
+/* ========== الرسوم المتحركة ========== */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideRight {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-in {
+  animation: slide-in 0.28s ease-out;
+}
+
+/* ========== الجولة التعريفية - Guided Tour ========== */
+@keyframes tourSpotlightPulse {
+  0%, 100% {
+    box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.65),
+                0 0 0 4px rgba(29, 78, 216, 0.5),
+                0 0 20px 4px rgba(29, 78, 216, 0.15);
+  }
+  50% {
+    box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.65),
+                0 0 0 8px rgba(29, 78, 216, 0.25),
+                0 0 30px 8px rgba(29, 78, 216, 0.1);
+  }
+}
+
+@keyframes tourTooltipEnter {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes tourTooltipExit {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(8px) scale(0.96);
+  }
+}
+
+@keyframes tourProgressFill {
+  from { width: 0%; }
+  to { width: var(--tour-progress); }
+}
+
+@keyframes tourStepBounce {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+}
+
+.tour-spotlight {
+  position: fixed;
+  z-index: 1060;
+  border-radius: var(--radius-xl, 12px);
+  transition: top 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+              left 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+              width 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+              height 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+  animation: tourSpotlightPulse 2.5s ease-in-out infinite;
+}
+
+.tour-overlay-click {
+  position: fixed;
+  inset: 0;
+  z-index: 1059;
+  cursor: pointer;
+}
+
+.tour-tooltip {
+  position: fixed;
+  z-index: 1061;
+  width: 380px;
+  max-width: calc(100vw - 32px);
+  animation: tourTooltipEnter 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.tour-tooltip-exit {
+  animation: tourTooltipExit 0.25s ease-in forwards;
+}
+
+.tour-tooltip-card {
+  background: var(--card-bg, var(--bg-primary));
+  border-radius: var(--radius-xl, 12px);
+  border: 1px solid var(--card-border, var(--border-light));
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25),
+              0 0 0 1px rgba(29, 78, 216, 0.08);
+  overflow: hidden;
+}
+
+.tour-tooltip-header {
+  background: linear-gradient(135deg, var(--color-primary-500), var(--color-primary-600, #1e40af));
+  padding: 16px 20px;
+  color: white;
+}
+
+.tour-arrow {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  background: var(--card-bg, var(--bg-primary));
+  border: 1px solid var(--card-border, var(--border-light));
+  transform: rotate(45deg);
+  z-index: -1;
+}
+
+.tour-arrow-top {
+  bottom: -8px;
+  border-top: none;
+  border-right: none;
+}
+
+.tour-arrow-bottom {
+  top: -8px;
+  border-bottom: none;
+  border-left: none;
+}
+
+.tour-arrow-left {
+  right: -8px;
+  border-left: none;
+  border-top: none;
+}
+
+.tour-arrow-right {
+  left: -8px;
+  border-right: none;
+  border-bottom: none;
+}
+
+.tour-progress-bar {
+  height: 3px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.tour-progress-fill {
+  height: 100%;
+  background: white;
+  border-radius: 2px;
+  transition: width 0.4s ease;
+}
+
+.tour-step-dot {
+  transition: all 0.3s ease;
+}
+
+.tour-step-dot-active {
+  animation: tourStepBounce 0.4s ease;
+}
+
+/* ========== أنماط الطباعة ========== */
+@media print {
+  body {
+    background: white;
+    color: black;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .card {
+    box-shadow: none;
+    border: 1px solid #ddd;
+  }
+}
+
+/* ========== استجابة الشاشات ========== */
+
+/* شاشات صغيرة جداً (الهواتف) */
+@media (max-width: 640px) {
+  :root {
+    --sidebar-width: 100%;
+    --header-height: 56px;
+    --card-padding: var(--spacing-4);
+    --page-padding: var(--spacing-3);
+  }
+
+  body {
+    font-size: var(--font-size-sm);
+  }
+
+  h1 { font-size: var(--font-size-2xl); }
+  h2 { font-size: var(--font-size-xl); }
+  h3 { font-size: var(--font-size-lg); }
+
+  .card {
+    padding: var(--spacing-4);
+  }
+
+  .btn {
+    padding: var(--spacing-2) var(--spacing-4);
+    font-size: var(--font-size-xs);
+  }
+
+  .table th, .table td {
+    padding: var(--spacing-2) var(--spacing-3);
+    font-size: var(--font-size-xs);
+  }
+}
+
+/* شاشات متوسطة (الأجهزة اللوحية) */
+@media (min-width: 641px) and (max-width: 1024px) {
+  :root {
+    --card-padding: var(--spacing-5);
+    --page-padding: var(--spacing-4);
+  }
+
+  .table th, .table td {
+    padding: var(--spacing-3);
+    font-size: var(--font-size-sm);
+  }
+}
+
+/* شاشات كبيرة */
+@media (min-width: 1025px) and (max-width: 1535px) {
+  :root {
+    --page-padding: var(--spacing-5);
+  }
+}
+
+/* شاشات كبيرة جداً */
+@media (min-width: 1536px) {
+  :root {
+    --sidebar-width: 300px;
+    --page-padding: var(--spacing-6);
+  }
+}
+
+/* ========== الوضع المضغوط - للجداول والبيانات الكثيفة ========== */
+.compact-mode {
+  --card-padding: var(--spacing-4);
+  --spacing-base: var(--spacing-2);
+}
+
+.compact-mode .card {
+  padding: var(--spacing-4);
+}
+
+.compact-mode .table th {
+  padding: var(--spacing-2) var(--spacing-3);
+  font-size: 0.7rem;
+}
+
+.compact-mode .table td {
+  padding: var(--spacing-2) var(--spacing-3);
+  font-size: var(--font-size-xs);
+}
+
+.compact-mode .btn {
+  padding: var(--spacing-1) var(--spacing-3);
+  font-size: var(--font-size-xs);
+  height: auto;
+  min-height: 28px;
+}
+
+.compact-mode .badge {
+  padding: var(--spacing-0) var(--spacing-2);
+  font-size: 0.65rem;
+}
+
+.compact-mode .input-field {
+  padding: var(--spacing-2) var(--spacing-3);
+  font-size: var(--font-size-xs);
+}
+
+/* ========== تحسينات الجداول للشاشات المختلفة ========== */
+.responsive-table {
+  width: 100%;
+  overflow-x: auto;
+  /* Removed deprecated -webkit-overflow-scrolling - smooth scrolling is default */
+  /* Using overflow-behavior for better compatibility */
+  scroll-behavior: smooth;
+}
+
+.responsive-table table {
+  min-width: 600px;
+}
+
+@media (max-width: 768px) {
+  .responsive-table table {
+    min-width: 100%;
+  }
+
+  .responsive-table th,
+  .responsive-table td {
+    white-space: nowrap;
+  }
+}
+
+/* ========== تحسين استغلال المساحة ========== */
+.full-height {
+  min-height: calc(100vh - var(--header-height) - var(--spacing-12));
+}
+
+.content-area {
+  padding: var(--page-padding, var(--spacing-6));
+}
+
+/* ذاكرة تخزين مؤقت أصغر للمساحة */
+.space-efficient .card {
+  margin-bottom: var(--spacing-3);
+}
+
+.space-efficient .card-header {
+  padding-bottom: var(--spacing-2);
+  margin-bottom: var(--spacing-2);
+}
+
+/* ========== تحسين قابلية القراءة ========== */
+.readable-width {
+  max-width: 80ch;
+}
+
+/* تباعد أسطر أفضل للقراءة */
+.readable-text {
+  line-height: var(--line-height-relaxed);
+  letter-spacing: 0.01em;
+}
+
+/* ========== تحسين التركيز البصري ========== */
+.focus-area {
+  background: var(--bg-primary);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-sm);
+}
+
+/* إخفاء العناصر الثانوية على الشاشات الصغيرة */
+@media (max-width: 768px) {
+  .hide-on-mobile {
+    display: none !important;
+  }
+}
+
+@media (min-width: 769px) {
+  .show-on-mobile-only {
+    display: none !important;
+  }
+}

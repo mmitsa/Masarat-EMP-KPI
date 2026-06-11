@@ -1,0 +1,13 @@
+{
+    "serverUrl": "https://unified.mmit.sa",
+    "apiKey": "الصق_مفتاح_API_هنا",
+    "syncIntervalMinutes": 5,
+    "devices": [
+        {
+            "name": "جهاز البوابة الرئيسية",
+            "ip": "192.168.1.201",
+            "port": 4370,
+            "protocol": "udp"
+        }
+    ]
+}

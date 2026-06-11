@@ -1,0 +1,133 @@
+:root {
+    --epm-saudi-green: #165C2D;
+    --epm-saudi-green-700: #124d26;
+    --epm-saudi-green-900: #0A3319;
+    --epm-saudi-gold: #D4AF37;
+    --epm-saudi-mint: #F0F7F4;
+    --epm-saudi-ink: #1A1A1A;
+    --epm-saudi-border: rgba(22, 92, 45, 0.14);
+}
+
+.theme-government body,
+.theme-saudi body {
+    background:
+        linear-gradient(180deg, rgba(240, 247, 244, 0.92) 0%, rgba(255, 255, 255, 0.95) 42%, rgba(248, 251, 249, 1) 100%);
+}
+
+.theme-government .epm-app-shell,
+.theme-saudi .epm-app-shell {
+    background:
+        radial-gradient(circle at 18% 0%, rgba(212, 175, 55, 0.08), transparent 28rem),
+        linear-gradient(180deg, #F8FBF9 0%, #FFFFFF 46%, #F8FBF9 100%);
+}
+
+.epm-header {
+    border-bottom-color: var(--epm-saudi-border) !important;
+    box-shadow: 0 1px 0 rgba(22, 92, 45, 0.08);
+}
+
+.epm-header::before {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    top: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--epm-saudi-green-900), var(--epm-saudi-green), var(--epm-saudi-gold));
+}
+
+.epm-sidebar {
+    box-shadow: -1px 0 0 rgba(22, 92, 45, 0.08), -12px 0 32px rgba(22, 92, 45, 0.05);
+}
+
+.epm-content-surface {
+    position: relative;
+}
+
+.epm-saudi-card {
+    background: rgba(255, 255, 255, 0.96);
+    border: 1px solid var(--epm-saudi-border);
+    box-shadow: 0 10px 26px rgba(22, 92, 45, 0.07);
+}
+
+.epm-saudi-card:hover {
+    border-color: rgba(22, 92, 45, 0.24);
+}
+
+.epm-saudi-kpi {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(180deg, #FFFFFF 0%, #FBFDFB 100%);
+    border: 1px solid var(--epm-saudi-border);
+}
+
+.epm-saudi-kpi::before {
+    content: "";
+    position: absolute;
+    inset-inline-start: 0;
+    top: 0;
+    width: 5px;
+    height: 100%;
+    background: linear-gradient(180deg, var(--epm-saudi-green), var(--epm-saudi-gold));
+}
+
+.epm-saudi-primary {
+    background: var(--epm-saudi-green);
+    color: #FFFFFF;
+}
+
+.epm-saudi-primary:hover {
+    background: var(--epm-saudi-green-700);
+}
+
+.epm-saudi-soft {
+    background: var(--epm-saudi-mint);
+    color: var(--epm-saudi-green-900);
+}
+
+.epm-saudi-number {
+    color: var(--epm-saudi-green);
+}
+
+.epm-saudi-gold {
+    color: #9B7A14;
+}
+
+.epm-saudi-step {
+    background: linear-gradient(180deg, #FFFFFF 0%, #F8FBF9 100%);
+    border: 1px solid rgba(22, 92, 45, 0.1);
+}
+
+.epm-saudi-step-index {
+    background: var(--epm-saudi-green);
+    color: #FFFFFF;
+    box-shadow: 0 0 0 4px rgba(22, 92, 45, 0.1);
+}
+
+.epm-saudi-login {
+    background:
+        radial-gradient(circle at 80% 10%, rgba(212, 175, 55, 0.13), transparent 24rem),
+        linear-gradient(135deg, #F8FBF9 0%, #FFFFFF 52%, #F0F7F4 100%);
+}
+
+.epm-saudi-login-side {
+    background:
+        linear-gradient(145deg, rgba(10, 51, 25, 0.97), rgba(22, 92, 45, 0.96)),
+        radial-gradient(circle at 20% 20%, rgba(212, 175, 55, 0.22), transparent 22rem);
+}
+
+.epm-saudi-login-mark {
+    background: linear-gradient(135deg, var(--epm-saudi-green), var(--epm-saudi-green-900));
+    color: #FFFFFF;
+    box-shadow: 0 16px 34px rgba(22, 92, 45, 0.22);
+}
+
+.dark .epm-saudi-card,
+.dark .epm-saudi-kpi {
+    background: rgba(30, 41, 33, 0.95);
+    border-color: rgba(163, 203, 179, 0.16);
+}
+
+.dark .epm-saudi-step {
+    background: rgba(30, 41, 33, 0.82);
+    border-color: rgba(163, 203, 179, 0.12);
+}

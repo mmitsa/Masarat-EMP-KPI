@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>Test Draft Save</title>
+<style>
+body { font-family: 'IBM Plex Sans Arabic', sans-serif; padding: 40px; max-width: 600px; margin: auto; }
+.field { margin: 16px 0; }
+label { display: block; margin-bottom: 4px; font-weight: bold; }
+input { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 8px; font-size: 16px; }
+button { padding: 12px 24px; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; margin-left: 8px; }
+.btn-draft { background: #f59e0b; color: white; }
+.btn-login { background: #1d4ed8; color: white; }
+#result { margin-top: 20px; padding: 16px; border-radius: 8px; white-space: pre-wrap; font-size: 14px; }
+.success { background: #d1fae5; color: #065f46; }
+.error { background: #fee2e2; color: #991b1b; }
+.info { background: #dbeafe; color: #1e40af; }
+</style>
+</head>
+<body>
+<h1>Test Employee Draft Save</h1>
+<div id="status"></div>
+
+<h3>1. Login First</h3>
+<button class="btn-login" onclick="doLogin()">Login (1000000001)</button>
+<span id="loginStatus"></span>
+
+<h3>2. Fill Employee Data</h3>
+<div class="field"><label>National ID</label><input id="nationalId" value="1098765432"></div>
+<div class="field"><label>First Name (AR)</label><input id="firstName" value="سعد"></div>
+<div class="field"><label>Family Name (AR)</label><input id="familyName" value="القحطاني"></div>
+<div class="field"><label>Mobile</label><input id="mobile" value="0501234567"></div>
+<div class="field"><label>Email</label><input id="email" value="saad@masarat.sa"></div>
+
+<h3>3. Save</h3>
+<button class="btn-draft" onclick="saveDraft()">Save as Draft</button>
+
+<div id="result"></div>
+
+<script>
+async function doLogin() {
+    const el = document.getElementById('loginStatus');
+    el.textContent = 'Logging in...';
+    try {
+        // Step 1: CSRF
+        const csrfRes = await fetch('/api/auth/csrf');
+        const csrf = await csrfRes.json();
+
+        // Step 2: Login
+        const loginRes = await fetch('/api/auth/callback/credentials', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: `username=1000000001&password=Mm123456&csrfToken=${csrf.csrfToken}`,
+            redirect: 'manual',
+        });
+
+        // Step 3: Verify
+        const sessRes = await fetch('/api/auth/session');
+        const sess = await sessRes.json();
+        if (sess.user) {
+            el.textContent = 'Logged in as: ' + sess.user.name + ' (' + (sess.user.roles||[]).join(',') + ')';
+            el.style.color = 'green';
+        } else {
+            el.textContent = 'Login failed - no session';
+            el.style.color = 'red';
+        }
+    } catch (err) {
+        el.textContent = 'Error: ' + err.message;
+        el.style.color = 'red';
+    }
+}
+
+async function saveDraft() {
+    const result = document.getElementById('result');
+    result.className = 'info';
+    result.textContent = 'Saving...';
+
+    const body = {
+        nationalId: document.getElementById('nationalId').value,
+        arName: document.getElementById('firstName').value + ' ' + document.getElementById('familyName').value,
+        enName: 'Saad AlQahtani',
+        mobile: document.getElementById('mobile').value,
+        email: document.getElementById('email').value,
+        status: 'Draft',
+        basicSalary: 8000,
+        gender: 'M',
+        nationality: 'سعودي',
+    };
+
+    try {
+        const res = await fetch('/api/hr/employees', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body),
+        });
+
+        const data = await res.json();
+
+        if (res.ok) {
+            result.className = 'success';
+            result.textContent = 'SUCCESS! Status: ' + res.status + '\n\n' + JSON.stringify(data, null, 2);
+        } else {
+            result.className = 'error';
+            result.textContent = 'FAILED! Status: ' + res.status + '\n\n' + JSON.stringify(data, null, 2);
+        }
+    } catch (err) {
+        result.className = 'error';
+        result.textContent = 'Network Error: ' + err.message;
+    }
+}
+
+// Auto-check session on load
+(async () => {
+    try {
+        const sess = await (await fetch('/api/auth/session')).json();
+        if (sess.user) {
+            document.getElementById('loginStatus').textContent = 'Already logged in: ' + sess.user.name;
+            document.getElementById('loginStatus').style.color = 'green';
+        }
+    } catch {}
+})();
+</script>
+</body>
+</html>

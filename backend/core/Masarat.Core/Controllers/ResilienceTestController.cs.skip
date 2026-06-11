@@ -1,0 +1,251 @@
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using System.Net;
+using System.Net.Http;
+
+namespace Masarat.Core.Controllers
+{
+    /// <summary>
+    /// Test controller for verifying resilience patterns (circuit breaker, retry, timeout)
+    /// Add this controller to any API project to test resilience functionality
+    /// </summary>
+    [ApiController]
+    [Route("api/[controller]")]
+    public class ResilienceTestController : ControllerBase
+    {
+        private readonly IHttpClientFactory _httpClientFactory;
+        private readonly ILogger<ResilienceTestController> _logger;
+        private static int _requestCount = 0;
+        private static int _failureCount = 0;
+
+        public ResilienceTestController(IHttpClientFactory httpClientFactory, ILogger<ResilienceTestController> logger)
+        {
+            _httpClientFactory = httpClientFactory;
+            _logger = logger;
+        }
+
+        /// <summary>
+        /// Test circuit breaker by simulating service failures
+        /// GET /api/resiliencetest/circuit-breaker
+        /// </summary>
+        [HttpGet("circuit-breaker")]
+        public async Task<IActionResult> TestCircuitBreaker([FromQuery] string? targetService = null)
+        {
+            var results = new List<object>();
+            var serviceName = targetService ?? "TestService";
+
+            try
+            {
+                // Create a test client with resilience policies
+                var httpClient = _httpClientFactory.CreateClient(serviceName);
+
+                _logger.LogInformation("Starting circuit breaker test with {Count} requests", 10);
+
+                // Make 10 requests to trigger circuit breaker
+                for (int i = 1; i <= 10; i++)
+                {
+                    try
+                    {
+                        var response = await httpClient.GetAsync("http://httpstat.us/500"); // Always fails
+                        results.Add(new
+                        {
+                            RequestNumber = i,
+                            Status = response.StatusCode.ToString(),
+                            IsSuccess = response.IsSuccessStatusCode,
+                            Timestamp = DateTime.UtcNow
+                        });
+
+                        _logger.LogInformation("Request {Count}: {Status}", i, response.StatusCode);
+                        await Task.Delay(500); // Small delay between requests
+                    }
+                    catch (Polly.CircuitBreaker.BrokenCircuitException ex)
+                    {
+                        results.Add(new
+                        {
+                            RequestNumber = i,
+                            Status = "CircuitOpen",
+                            IsSuccess = false,
+                            Message = "Circuit breaker is OPEN - service unavailable",
+                            Timestamp = DateTime.UtcNow
+                        });
+
+                        _logger.LogWarning("Request {Count}: Circuit breaker OPEN", i);
+                    }
+                    catch (Exception ex)
+                    {
+                        results.Add(new
+                        {
+                            RequestNumber = i,
+                            Status = "Error",
+                            IsSuccess = false,
+                            Message = ex.Message,
+                            Timestamp = DateTime.UtcNow
+                        });
+
+                        _logger.LogError(ex, "Request {Count}: Error", i);
+                    }
+                }
+
+                return Ok(new
+                {
+                    TestName = "Circuit Breaker Test",
+                    TotalRequests = 10,
+                    Results = results,
+                    Summary = new
+                    {
+                        SuccessCount = results.Count(r => (bool)r.GetType().GetProperty("IsSuccess")!.GetValue(r)!),
+                        FailureCount = results.Count(r => !(bool)r.GetType().GetProperty("IsSuccess")!.GetValue(r)!),
+                        CircuitOpenCount = results.Count(r => r.GetType().GetProperty("Status")!.GetValue(r)!.ToString() == "CircuitOpen")
+                    },
+                    Message = "Circuit breaker should open after 5 consecutive failures"
+                });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Circuit breaker test failed");
+                return StatusCode(500, new { Error = ex.Message });
+            }
+        }
+
+        /// <summary>
+        /// Test retry policy by simulating intermittent failures
+        /// GET /api/resiliencetest/retry
+        /// </summary>
+        [HttpGet("retry")]
+        public IActionResult TestRetry()
+        {
+            _requestCount++;
+            
+            // Fail first 2 attempts, succeed on 3rd
+            if (_requestCount <= 2)
+            {
+                _failureCount++;
+                _logger.LogWarning("Retry test: Simulating failure {Count}/2", _failureCount);
+                return StatusCode(503, new
+                {
+                    Message = "Service temporarily unavailable",
+                    AttemptNumber = _requestCount,
+                    FailureCount = _failureCount,
+                    Note = "This should trigger automatic retry (max 3 attempts)"
+                });
+            }
+
+            var response = new
+            {
+                Message = "Success after retries!",
+                TotalAttempts = _requestCount,
+                FailureCount = _failureCount,
+                Note = "Retry policy automatically recovered from transient failures"
+            };
+
+            // Reset counters
+            _requestCount = 0;
+            _failureCount = 0;
+
+            _logger.LogInformation("Retry test: Success after {Attempts} attempts", _requestCount);
+            return Ok(response);
+        }
+
+        /// <summary>
+        /// Test timeout policy by simulating slow responses
+        /// GET /api/resiliencetest/timeout
+        /// </summary>
+        [HttpGet("timeout")]
+        public async Task<IActionResult> TestTimeout([FromQuery] int delaySeconds = 35)
+        {
+            try
+            {
+                _logger.LogInformation("Timeout test: Delaying for {Seconds} seconds (timeout is 30s)", delaySeconds);
+
+                // Simulate slow operation (timeout is 30 seconds)
+                await Task.Delay(TimeSpan.FromSeconds(delaySeconds));
+
+                return Ok(new
+                {
+                    Message = "Request completed successfully",
+                    DelaySeconds = delaySeconds,
+                    Note = "Request finished before timeout"
+                });
+            }
+            catch (TaskCanceledException)
+            {
+                _logger.LogWarning("Timeout test: Request timed out after 30 seconds");
+                return StatusCode(408, new
+                {
+                    Message = "Request timeout",
+                    TimeoutSeconds = 30,
+                    Note = "Timeout policy canceled long-running operation"
+                });
+            }
+        }
+
+        /// <summary>
+        /// Test bulkhead isolation by simulating concurrent requests
+        /// GET /api/resiliencetest/bulkhead
+        /// </summary>
+        [HttpGet("bulkhead")]
+        public async Task<IActionResult> TestBulkhead()
+        {
+            _logger.LogInformation("Bulkhead test: Processing request");
+
+            // Simulate some processing
+            await Task.Delay(TimeSpan.FromSeconds(2));
+
+            return Ok(new
+            {
+                Message = "Request processed successfully",
+                ThreadId = Environment.CurrentManagedThreadId,
+                Timestamp = DateTime.UtcNow,
+                Note = "Bulkhead policy limits concurrent executions to 20 with 40 queued"
+            });
+        }
+
+        /// <summary>
+        /// Get resilience test status and statistics
+        /// GET /api/resiliencetest/status
+        /// </summary>
+        [HttpGet("status")]
+        public IActionResult GetStatus()
+        {
+            return Ok(new
+            {
+                Service = "Resilience Test Controller",
+                Status = "Active",
+                Timestamp = DateTime.UtcNow,
+                AvailableTests = new[]
+                {
+                    new { Endpoint = "GET /api/resiliencetest/circuit-breaker", Description = "Test circuit breaker pattern" },
+                    new { Endpoint = "GET /api/resiliencetest/retry", Description = "Test retry with exponential backoff" },
+                    new { Endpoint = "GET /api/resiliencetest/timeout?delaySeconds=35", Description = "Test timeout policy (default 30s)" },
+                    new { Endpoint = "GET /api/resiliencetest/bulkhead", Description = "Test bulkhead isolation" },
+                    new { Endpoint = "GET /api/resiliencetest/status", Description = "Get this status message" }
+                },
+                ResiliencePolicies = new
+                {
+                    CircuitBreaker = "Opens after 5 failures, stays open for 30 seconds",
+                    Retry = "3 attempts with exponential backoff (2^n seconds)",
+                    Timeout = "30 seconds maximum wait time",
+                    Bulkhead = "Max 20 concurrent executions, 40 queued"
+                }
+            });
+        }
+
+        /// <summary>
+        /// Reset all test counters
+        /// POST /api/resiliencetest/reset
+        /// </summary>
+        [HttpPost("reset")]
+        public IActionResult Reset()
+        {
+            _requestCount = 0;
+            _failureCount = 0;
+            _logger.LogInformation("Resilience test counters reset");
+
+            return Ok(new
+            {
+                Message = "Test counters reset successfully",
+                Timestamp = DateTime.UtcNow
+            });
+        }
+    }
+}

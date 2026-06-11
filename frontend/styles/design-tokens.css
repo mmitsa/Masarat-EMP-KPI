@@ -1,0 +1,667 @@
+/* ============================================
+   المنصة الموحدة - نظام التصميم المتعدد الثيمات
+   Multi-Theme Design System - Unified Platform
+   تاريخ التحديث: 2026-02-03
+   يدعم: الثيم الافتراضي + الثيم الحكومي + الوضع الليلي/النهاري
+   ============================================ */
+
+/* ========================================
+   الثيم الافتراضي - الوضع النهاري
+   Default Theme - Light Mode
+   ======================================== */
+:root,
+.theme-default.light,
+.theme-default:not(.dark) {
+  /* ===== Primary Colors - أزرق ===== */
+  --color-primary-50: #eff6ff;
+  --color-primary-100: #dbeafe;
+  --color-primary-200: #bfdbfe;
+  --color-primary-300: #93c5fd;
+  --color-primary-400: #60a5fa;
+  --color-primary-500: #1d4ed8;
+  --color-primary-600: #1e40af;
+  --color-primary-700: #1e3a8a;
+  --color-primary-800: #1e3a8a;
+  --color-primary-900: #172554;
+
+  /* ===== Secondary Colors - بنفسجي ===== */
+  --color-secondary-50: #faf5ff;
+  --color-secondary-100: #f3e8ff;
+  --color-secondary-200: #e9d5ff;
+  --color-secondary-300: #d8b4fe;
+  --color-secondary-400: #c084fc;
+  --color-secondary-500: #8a38f5;
+  --color-secondary-600: #7c3aed;
+  --color-secondary-700: #6d28d9;
+  --color-secondary-800: #5b21b6;
+  --color-secondary-900: #4c1d95;
+
+  /* ===== Gold Colors ===== */
+  --color-gold-50: #fefce8;
+  --color-gold-100: #fef9c3;
+  --color-gold-200: #fef08a;
+  --color-gold-300: #fde047;
+  --color-gold-400: #facc15;
+  --color-gold-500: #eab308;
+  --color-gold-600: #ca8a04;
+  --color-gold-700: #a16207;
+
+  /* ===== Status Colors ===== */
+  --color-success: #10b981;
+  --color-success-light: #d1fae5;
+  --color-success-dark: #059669;
+  --color-warning: #f59e0b;
+  --color-warning-light: #fef3c7;
+  --color-warning-dark: #d97706;
+  --color-error: #ef4444;
+  --color-error-light: #fee2e2;
+  --color-error-dark: #dc2626;
+  --color-info: #3b82f6;
+  --color-info-light: #dbeafe;
+  --color-info-dark: #2563eb;
+
+  /* ===== Gray Scale ===== */
+  --color-gray-50: #f9fafb;
+  --color-gray-100: #f3f4f6;
+  --color-gray-150: #edeff2;
+  --color-gray-200: #e5e7eb;
+  --color-gray-250: #dfe2e6;
+  --color-gray-300: #d1d5db;
+  --color-gray-350: #c5c9cf;
+  --color-gray-400: #9ca3af;
+  --color-gray-500: #6b7280;
+  --color-gray-600: #4b5563;
+  --color-gray-700: #374151;
+  --color-gray-800: #1f2937;
+  --color-gray-850: #1a202c;
+  --color-gray-900: #111827;
+  --color-gray-950: #0f172a;
+
+  /* ===== Background Colors ===== */
+  --color-background: #ffffff;
+  --color-background-soft: #f9fafb;
+  --color-background-medium: #f3f4f6;
+  --color-surface: #ffffff;
+  --color-surface-hover: #f9fafb;
+
+  /* Semantic BG vars */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f9fafb;
+  --bg-tertiary: #f3f4f6;
+  --bg-accent: #eff6ff;
+
+  /* ===== Text Colors ===== */
+  --color-text-primary: #1f2937;
+  --color-text-secondary: #4b5563;
+  --color-text-tertiary: #9ca3af;
+  --color-text-inverse: #ffffff;
+
+  /* Semantic text vars */
+  --text-primary: #111827;
+  --text-secondary: #374151;
+  --text-tertiary: #6b7280;
+  --text-muted: #9ca3af;
+  --text-inverse: #ffffff;
+  --text-accent: #1d4ed8;
+
+  /* ===== Border Colors ===== */
+  --color-border: #e5e7eb;
+  --color-border-medium: #d1d5db;
+  --color-border-focus: #1d4ed8;
+
+  /* Semantic border vars */
+  --border-light: #e5e7eb;
+  --border-medium: #d1d5db;
+  --border-dark: #9ca3af;
+  --border-accent: #1d4ed8;
+
+  /* ===== Component Colors ===== */
+  --color-sidebar: #1e3a8a;
+  --color-sidebar-text: #ffffff;
+  --color-sidebar-hover: rgba(255,255,255,0.1);
+  --color-header: #ffffff;
+  --color-header-border: #e5e7eb;
+
+  /* ===== Shadows ===== */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 10px 10px -5px rgba(0, 0, 0, 0.03);
+  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.06);
+  --shadow-dropdown: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --shadow-modal: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+/* ========================================
+   الثيم الافتراضي - الوضع الليلي
+   Default Theme - Dark Mode
+   ======================================== */
+.theme-default.dark {
+  /* ===== Badge Tokens (dark) ===== */
+  --badge-success-bg: #064e3b;
+  --badge-success-text: #6ee7b7;
+  --badge-warning-bg: #78350f;
+  --badge-warning-text: #fcd34d;
+  --badge-error-bg: #7f1d1d;
+  --badge-error-text: #fca5a5;
+  --badge-info-bg: #1e3a8a;
+  --badge-info-text: #93c5fd;
+
+  /* ===== Primary Colors - أزرق فاتح ===== */
+  --color-primary-50: #172554;
+  --color-primary-100: #1e3a8a;
+  --color-primary-200: #1e40af;
+  --color-primary-300: #1d4ed8;
+  --color-primary-400: #2563eb;
+  --color-primary-500: #3b82f6;
+  --color-primary-600: #60a5fa;
+  --color-primary-700: #93c5fd;
+  --color-primary-800: #bfdbfe;
+  --color-primary-900: #dbeafe;
+
+  /* ===== Secondary Colors ===== */
+  --color-secondary-500: #a855f7;
+  --color-secondary-600: #c084fc;
+
+  /* ===== Gold Colors ===== */
+  --color-gold-500: #fbbf24;
+  --color-gold-600: #fcd34d;
+
+  /* ===== Status Colors ===== */
+  --color-success: #34d399;
+  --color-success-light: #064e3b;
+  --color-warning: #fbbf24;
+  --color-warning-light: #78350f;
+  --color-error: #f87171;
+  --color-error-light: #7f1d1d;
+  --color-info: #60a5fa;
+  --color-info-light: #1e3a8a;
+
+  /* ===== Backgrounds ===== */
+  --color-background: #111827;
+  --color-background-soft: #1f2937;
+  --color-background-medium: #374151;
+  --color-surface: #1f2937;
+  --color-surface-hover: #374151;
+
+  --bg-primary: #111827;
+  --bg-secondary: #1f2937;
+  --bg-tertiary: #374151;
+  --bg-accent: #1e3a5f;
+
+  /* ===== Text Colors ===== */
+  --color-text-primary: #f9fafb;
+  --color-text-secondary: #d1d5db;
+  --color-text-tertiary: #9ca3af;
+  --color-text-inverse: #111827;
+
+  --text-primary: #f9fafb;
+  --text-secondary: #d1d5db;
+  --text-tertiary: #9ca3af;
+  --text-muted: #6b7280;
+  --text-inverse: #111827;
+  --text-accent: #60a5fa;
+
+  /* ===== Border Colors ===== */
+  --color-border: #374151;
+  --color-border-medium: #4b5563;
+  --color-border-focus: #3b82f6;
+
+  --border-light: #374151;
+  --border-medium: #4b5563;
+  --border-dark: #6b7280;
+  --border-accent: #3b82f6;
+
+  /* ===== Component Colors ===== */
+  --color-sidebar: #0f172a;
+  --color-sidebar-text: #f9fafb;
+  --color-sidebar-hover: rgba(255,255,255,0.1);
+  --color-header: #1f2937;
+  --color-header-border: #374151;
+
+  /* ===== Shadows ===== */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-dropdown: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --shadow-modal: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+}
+
+/* ========================================
+   الثيم الحكومي - الوضع النهاري
+   Government Theme - Light Mode
+   ======================================== */
+.theme-government.light,
+.theme-government:not(.dark),
+.theme-saudi.light,
+.theme-saudi:not(.dark) {
+  /* ===== Primary Colors - أخضر سعودي ===== */
+  --color-primary-50: #e8f5ec;
+  --color-primary-100: #c8e6cf;
+  --color-primary-200: #a5d6b1;
+  --color-primary-300: #81c793;
+  --color-primary-400: #66ba7d;
+  --color-primary-500: #165C2D;
+  --color-primary-600: #124d26;
+  --color-primary-700: #0e3e1f;
+  --color-primary-800: #0a2f18;
+  --color-primary-900: #062011;
+
+  /* ===== Secondary/Gold Colors - ذهبي ===== */
+  --color-secondary-50: #fefce8;
+  --color-secondary-100: #fef9c3;
+  --color-secondary-200: #fef08a;
+  --color-secondary-300: #fde047;
+  --color-secondary-400: #facc15;
+  --color-secondary-500: #D4AF37;
+  --color-secondary-600: #ca8a04;
+  --color-secondary-700: #a16207;
+  --color-secondary-800: #854d0e;
+  --color-secondary-900: #713f12;
+
+  /* ===== Gold (alias) ===== */
+  --color-gold-50: #fefce8;
+  --color-gold-100: #fef9c3;
+  --color-gold-200: #fef08a;
+  --color-gold-300: #fde047;
+  --color-gold-400: #facc15;
+  --color-gold-500: #D4AF37;
+  --color-gold-600: #ca8a04;
+  --color-gold-700: #a16207;
+
+  /* Gov prefix aliases */
+  --gov-primary-50: #e8f5ec;
+  --gov-primary-100: #c8e6cf;
+  --gov-primary-200: #a5d6b1;
+  --gov-primary-300: #81c793;
+  --gov-primary-400: #66ba7d;
+  --gov-primary-500: #165C2D;
+  --gov-primary-600: #124d26;
+  --gov-primary-700: #0e3e1f;
+  --gov-primary-800: #0a2f18;
+  --gov-primary-900: #062011;
+
+  --gov-gold-50: #fefce8;
+  --gov-gold-100: #fef9c3;
+  --gov-gold-200: #fef08a;
+  --gov-gold-300: #fde047;
+  --gov-gold-400: #facc15;
+  --gov-gold-500: #D4AF37;
+  --gov-gold-600: #ca8a04;
+  --gov-gold-700: #a16207;
+
+  /* ===== Status Colors ===== */
+  --color-success: #165C2D;
+  --color-success-light: #d1fae5;
+  --color-success-dark: #0e3e1f;
+  --color-warning: #f59e0b;
+  --color-warning-light: #fef3c7;
+  --color-warning-dark: #d97706;
+  --color-error: #dc2626;
+  --color-error-light: #fee2e2;
+  --color-error-dark: #b91c1c;
+  --color-info: #0284c7;
+  --color-info-light: #e0f2fe;
+  --color-info-dark: #0369a1;
+
+  --gov-success: #059669;
+  --gov-success-light: #d1fae5;
+  --gov-warning: #d97706;
+  --gov-warning-light: #fef3c7;
+  --gov-error: #dc2626;
+  --gov-error-light: #fee2e2;
+  --gov-info: #0284c7;
+  --gov-info-light: #e0f2fe;
+
+  /* ===== Gray Scale ===== */
+  --gov-gray-50: #f9fafb;
+  --gov-gray-100: #f3f4f6;
+  --gov-gray-200: #e5e7eb;
+  --gov-gray-300: #d1d5db;
+  --gov-gray-400: #9ca3af;
+  --gov-gray-500: #6b7280;
+  --gov-gray-600: #4b5563;
+  --gov-gray-700: #374151;
+  --gov-gray-800: #1f2937;
+  --gov-gray-900: #111827;
+
+  /* ===== Backgrounds ===== */
+  --color-background: #ffffff;
+  --color-background-soft: #f8fbf9;
+  --color-background-medium: #f0f7f4;
+  --color-surface: #ffffff;
+  --color-surface-hover: #f8fbf9;
+
+  --bg-primary: #ffffff;
+  --bg-secondary: #f9fafb;
+  --bg-tertiary: #f3f4f6;
+  --bg-accent: #f0fdf4;
+  --bg-dark: #1f2937;
+
+  /* ===== Text Colors ===== */
+  --color-text-primary: #1a1a1a;
+  --color-text-secondary: #4b5563;
+  --color-text-tertiary: #9ca3af;
+  --color-text-inverse: #ffffff;
+
+  --text-primary: #111827;
+  --text-secondary: #374151;
+  --text-tertiary: #6b7280;
+  --text-muted: #9ca3af;
+  --text-inverse: #ffffff;
+  --text-accent: #165C2D;
+
+  /* ===== Border Colors ===== */
+  --color-border: #e5e7eb;
+  --color-border-medium: #d1d5db;
+  --color-border-focus: #165C2D;
+
+  --border-light: #e5e7eb;
+  --border-medium: #d1d5db;
+  --border-dark: #9ca3af;
+  --border-accent: #165C2D;
+
+  /* ===== Component Colors ===== */
+  --color-sidebar: #0A3319;
+  --color-sidebar-text: #ffffff;
+  --color-sidebar-hover: rgba(255,255,255,0.1);
+  --color-header: #ffffff;
+  --color-header-border: #e5e7eb;
+
+  /* ===== Shadows with green tint ===== */
+  --shadow-xs: 0 1px 2px rgba(22, 92, 45, 0.04);
+  --shadow-sm: 0 1px 3px rgba(22, 92, 45, 0.06), 0 1px 2px rgba(22, 92, 45, 0.04);
+  --shadow-md: 0 4px 6px -1px rgba(22, 92, 45, 0.07), 0 2px 4px -1px rgba(22, 92, 45, 0.04);
+  --shadow-lg: 0 10px 15px -3px rgba(22, 92, 45, 0.08), 0 4px 6px -2px rgba(22, 92, 45, 0.04);
+  --shadow-xl: 0 20px 25px -5px rgba(22, 92, 45, 0.08), 0 10px 10px -5px rgba(22, 92, 45, 0.03);
+  --shadow-card: 0 2px 8px rgba(22, 92, 45, 0.06);
+  --shadow-dropdown: 0 4px 12px rgba(22, 92, 45, 0.1);
+  --shadow-modal: 0 25px 50px -12px rgba(22, 92, 45, 0.25);
+}
+
+/* ========================================
+   الثيم الحكومي - الوضع الليلي
+   Government Theme - Dark Mode
+   ======================================== */
+.theme-government.dark,
+.theme-saudi.dark {
+  /* ===== Badge Tokens (dark) ===== */
+  --badge-success-bg: #14532d;
+  --badge-success-text: #86efac;
+  --badge-warning-bg: #713f12;
+  --badge-warning-text: #fde047;
+  --badge-error-bg: #7f1d1d;
+  --badge-error-text: #fca5a5;
+  --badge-info-bg: #0c4a6e;
+  --badge-info-text: #7dd3fc;
+
+  /* ===== Primary Colors - أخضر فاتح ===== */
+  --color-primary-50: #062011;
+  --color-primary-100: #0a2f18;
+  --color-primary-200: #0e3e1f;
+  --color-primary-300: #124d26;
+  --color-primary-400: #165C2D;
+  --color-primary-500: #1a7035;
+  --color-primary-600: #22863f;
+  --color-primary-700: #2a9c49;
+  --color-primary-800: #32b253;
+  --color-primary-900: #3ac85d;
+
+  --gov-primary-500: #22c55e;
+  --gov-primary-600: #16a34a;
+
+  /* ===== Secondary/Gold Colors ===== */
+  --color-secondary-500: #e6c349;
+  --color-secondary-600: #f0d35b;
+
+  --color-gold-500: #fbbf24;
+  --color-gold-600: #fcd34d;
+  --gov-gold-500: #fbbf24;
+
+  /* ===== Status Colors ===== */
+  --color-success: #22c55e;
+  --color-success-light: #14532d;
+  --color-warning: #fbbf24;
+  --color-warning-light: #713f12;
+  --color-error: #f87171;
+  --color-error-light: #7f1d1d;
+  --color-info: #38bdf8;
+  --color-info-light: #0c4a6e;
+
+  --gov-success: #22c55e;
+  --gov-warning: #fbbf24;
+  --gov-error: #f87171;
+  --gov-info: #38bdf8;
+
+  /* ===== Backgrounds ===== */
+  --color-background: #0f1610;
+  --color-background-soft: #151d18;
+  --color-background-medium: #1b2420;
+  --color-surface: #1e2921;
+  --color-surface-hover: #253029;
+
+  --bg-primary: #0f1610;
+  --bg-secondary: #151d18;
+  --bg-tertiary: #1b2420;
+  --bg-accent: #1a3324;
+  --bg-dark: #0f1610;
+
+  /* ===== Text Colors ===== */
+  --color-text-primary: #f0fdf4;
+  --color-text-secondary: #a3cbb3;
+  --color-text-tertiary: #6b9a7d;
+  --color-text-inverse: #0f1610;
+
+  --text-primary: #f0fdf4;
+  --text-secondary: #a3cbb3;
+  --text-tertiary: #6b9a7d;
+  --text-muted: #4a7058;
+  --text-inverse: #0f1610;
+  --text-accent: #4ade80;
+
+  /* ===== Border Colors ===== */
+  --color-border: #2d3d32;
+  --color-border-medium: #3d4d42;
+  --color-border-focus: #22c55e;
+
+  --border-light: #2d3d32;
+  --border-medium: #3d4d42;
+  --border-dark: #4d5d52;
+  --border-accent: #22c55e;
+
+  /* ===== Component Colors ===== */
+  --color-sidebar: #0a1a0f;
+  --color-sidebar-text: #f0fdf4;
+  --color-sidebar-hover: rgba(255,255,255,0.1);
+  --color-header: #1e2921;
+  --color-header-border: #2d3d32;
+
+  /* ===== Shadows ===== */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.6);
+  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.4);
+  --shadow-dropdown: 0 4px 12px rgba(0, 0, 0, 0.5);
+  --shadow-modal: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+}
+
+/* ========================================
+   Fallback for .dark without theme class
+   ======================================== */
+.dark:not(.theme-government):not(.theme-saudi) {
+  --color-primary-500: #3b82f6;
+  --color-primary-600: #60a5fa;
+  --gov-primary-500: #3b82f6;
+
+  --color-background: #111827;
+  --color-background-soft: #1f2937;
+  --color-background-medium: #374151;
+  --color-surface: #1f2937;
+  --color-surface-hover: #374151;
+
+  --bg-primary: #111827;
+  --bg-secondary: #1f2937;
+  --bg-tertiary: #374151;
+
+  --color-text-primary: #f9fafb;
+  --color-text-secondary: #d1d5db;
+  --text-primary: #f9fafb;
+  --text-secondary: #d1d5db;
+
+  --color-border: #374151;
+  --color-border-medium: #4b5563;
+  --border-light: #374151;
+  --border-medium: #4b5563;
+
+  --color-header: #1f2937;
+  --color-header-border: #374151;
+}
+
+/* ========================================
+   ثوابت مشتركة بين جميع الثيمات
+   Shared Constants Across All Themes
+   ======================================== */
+:root {
+  /* ===== Typography ===== */
+  --font-family-heading: 'Cairo', 'IBM Plex Sans Arabic', sans-serif;
+  --font-family-primary: 'IBM Plex Sans Arabic', 'Cairo', 'Segoe UI', sans-serif;
+  --font-family-mono: 'IBM Plex Mono', 'Consolas', monospace;
+
+  /* Font Sizes */
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.5rem;
+  --font-size-3xl: 1.875rem;
+  --font-size-4xl: 2.25rem;
+  --font-size-5xl: 3rem;
+
+  /* Font Weights */
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+
+  /* Line Heights */
+  --line-height-tight: 1.25;
+  --line-height-snug: 1.375;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.625;
+  --line-height-loose: 2;
+
+  /* ===== Spacing ===== */
+  --spacing-0: 0;
+  --spacing-1: 0.25rem;
+  --spacing-2: 0.5rem;
+  --spacing-3: 0.75rem;
+  --spacing-4: 1rem;
+  --spacing-5: 1.25rem;
+  --spacing-6: 1.5rem;
+  --spacing-8: 2rem;
+  --spacing-10: 2.5rem;
+  --spacing-12: 3rem;
+  --spacing-16: 4rem;
+  --spacing-20: 5rem;
+  --spacing-24: 6rem;
+  --spacing-32: 8rem;
+
+  /* ===== Border Radius ===== */
+  --radius-none: 0;
+  --radius-xs: 0.25rem;
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.25rem;
+  --radius-3xl: 1.5rem;
+  --radius-full: 9999px;
+
+  /* ===== Transitions ===== */
+  --transition-fast: 150ms ease-in-out;
+  --transition-normal: 250ms ease-in-out;
+  --transition-slow: 350ms ease-in-out;
+  --transition-bounce: 500ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+  /* ===== Z-Index ===== */
+  --z-base: 0;
+  --z-dropdown: 1000;
+  --z-sticky: 1020;
+  --z-fixed: 1030;
+  --z-modal-backdrop: 1040;
+  --z-modal: 1050;
+  --z-popover: 1060;
+  --z-tooltip: 1070;
+  --z-notification: 1080;
+
+  /* ===== Layout ===== */
+  --sidebar-width: 280px;
+  --sidebar-collapsed-width: 72px;
+  --header-height: 64px;
+
+  /* ===== Component Tokens ===== */
+  --card-bg: var(--bg-primary);
+  --card-border: var(--border-light);
+  --card-shadow: var(--shadow-card);
+  --card-radius: var(--radius-xl);
+  --card-padding: var(--spacing-6);
+  --input-radius: var(--radius-md);
+  --btn-radius: var(--radius-lg);
+  --modal-radius: var(--radius-2xl);
+  --tooltip-radius: var(--radius-md);
+  --progress-radius: var(--radius-full);
+
+  /* ===== Table Tokens ===== */
+  --table-header-bg: var(--bg-tertiary);
+  --table-header-text: var(--text-secondary);
+  --table-border: var(--border-light);
+  --table-row-hover: var(--color-surface-hover);
+  --table-row-stripe: var(--bg-secondary);
+
+  /* ===== Input Tokens ===== */
+  --input-bg: var(--bg-primary);
+  --input-border: var(--border-medium);
+  --input-text: var(--text-primary);
+  --input-placeholder: var(--text-muted);
+  --input-focus-border: var(--border-accent);
+  --input-focus-ring: var(--border-accent);
+
+  /* ===== Badge Tokens ===== */
+  --badge-success-bg: #dcfce7;
+  --badge-success-text: #166534;
+  --badge-warning-bg: #fef3c7;
+  --badge-warning-text: #92400e;
+  --badge-error-bg: #fee2e2;
+  --badge-error-text: #991b1b;
+  --badge-info-bg: #dbeafe;
+  --badge-info-text: #1e40af;
+
+  /* ===== Progress Tokens ===== */
+  --progress-bg: var(--bg-tertiary);
+  --progress-fill: var(--border-accent);
+}
+
+/* ========================================
+   Print Styles
+   ======================================== */
+@media print {
+  :root,
+  .theme-default,
+  .theme-government,
+  .theme-saudi {
+    --bg-primary: #ffffff;
+    --bg-secondary: #ffffff;
+    --text-primary: #000000;
+    --shadow-card: none;
+    --shadow-sm: none;
+    --shadow-md: none;
+    --shadow-lg: none;
+  }
+}

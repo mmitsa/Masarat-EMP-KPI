@@ -1,0 +1,130 @@
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Polly;
+
+namespace Masarat.Core.Resilience
+{
+    /// <summary>
+    /// Extension methods for configuring resilient HTTP clients
+    /// </summary>
+    public static class ResilientHttpClientExtensions
+    {
+        /// <summary>
+        /// Adds all resilient HTTP clients for service-to-service communication
+        /// </summary>
+        public static IServiceCollection AddResilientHttpClients(
+            this IServiceCollection services,
+            IConfiguration configuration)
+        {
+            var serviceUrls = configuration.GetSection("Services").Get<Dictionary<string, ServiceConfig>>();
+
+            if (serviceUrls == null || !serviceUrls.Any())
+            {
+                throw new InvalidOperationException("Services configuration section is missing or empty");
+            }
+
+            foreach (var service in serviceUrls)
+            {
+                services.AddResilientHttpClient(service.Key, service.Value.Url);
+            }
+
+            return services;
+        }
+
+        /// <summary>
+        /// Adds a single resilient HTTP client with all resilience patterns
+        /// </summary>
+        public static IHttpClientBuilder AddResilientHttpClient(
+            this IServiceCollection services,
+            string clientName,
+            string baseUrl)
+        {
+            return services
+                .AddHttpClient(clientName, client =>
+                {
+                    client.BaseAddress = new Uri(baseUrl);
+                    client.Timeout = TimeSpan.FromSeconds(60); // Overall timeout
+                    client.DefaultRequestHeaders.Add("User-Agent", "Masarat-Service/1.0");
+                });
+                // TODO: Re-enable Polly policies when Microsoft.Extensions.Http.Polly is added
+                // .AddPolicyHandler((serviceProvider, request) =>
+                // {
+                //     var logger = serviceProvider.GetRequiredService<ILogger<ResiliencePolicies>>();
+                //     
+                //     // Add endpoint to context for logging
+                //     var context = new Context($"{request.Method}:{request.RequestUri?.PathAndQuery}");
+                    context["endpoint"] = request.RequestUri?.ToString() ?? "unknown";
+
+                    return ResiliencePolicies.GetCombinedPolicy(logger);
+                })
+                .AddPolicyHandler((serviceProvider, request) =>
+                {
+                    var logger = serviceProvider.GetRequiredService<ILogger<ResiliencePolicies>>();
+                    return ResiliencePolicies.GetBulkheadPolicy(logger);
+                });
+        }
+
+        /// <summary>
+        /// Adds a resilient HTTP client for critical services with stricter policies
+        /// </summary>
+        public static IHttpClientBuilder AddCriticalHttpClient(
+            this IServiceCollection services,
+            string clientName,
+            string baseUrl)
+        {
+            return services
+                .AddHttpClient(clientName, client =>
+                {
+                    client.BaseAddress = new Uri(baseUrl);
+                    client.Timeout = TimeSpan.FromSeconds(30); // Shorter timeout for critical
+                });
+                // TODO: Re-enable Polly policies when Microsoft.Extensions.Http.Polly is added
+                // .AddPolicyHandler((serviceProvider, request) =>
+                // {
+                //     var logger = serviceProvider.GetRequiredService<ILogger<ResiliencePolicies>>();
+                //     
+                //     // More aggressive circuit breaker for critical services
+                //     return HttpPolicyExtensions
+                //         .HandleTransientHttpError()
+                //         .CircuitBreakerAsync(
+                //             handledEventsAllowedBeforeBreaking: 3, // Open after 3 failures
+                            durationOfBreak: TimeSpan.FromSeconds(60), // Stay open longer
+                            onBreak: (outcome, duration) =>
+                            {
+                                logger.LogError(
+                                    "CRITICAL SERVICE circuit breaker opened: {Service} for {Duration}s",
+                                    clientName,
+                                    duration.TotalSeconds
+                                );
+                            },
+                            onReset: () =>
+                            {
+                                logger.LogInformation("CRITICAL SERVICE recovered: {Service}", clientName);
+                            },
+                            onHalfOpen: () =>
+                            {
+                                logger.LogWarning("CRITICAL SERVICE testing: {Service}", clientName);
+                            }
+                        );
+                })
+                .AddPolicyHandler((serviceProvider, request) =>
+                {
+                    var logger = serviceProvider.GetRequiredService<ILogger<ResiliencePolicies>>();
+                    return ResiliencePolicies.GetRetryPolicy(logger);
+                })
+                .AddPolicyHandler((serviceProvider, request) =>
+                {
+                    var logger = serviceProvider.GetRequiredService<ILogger<ResiliencePolicies>>();
+                    return ResiliencePolicies.GetTimeoutPolicy(logger, timeoutSeconds: 15); // Shorter timeout
+                });
+        }
+    }
+
+    public class ServiceConfig
+    {
+        public string Url { get; set; } = string.Empty;
+        public bool IsCritical { get; set; }
+        public int TimeoutSeconds { get; set; } = 30;
+    }
+}
