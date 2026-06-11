@@ -340,21 +340,60 @@ const isSuperAdmin = (roles) => {
 
 const standaloneEpmNavigation = [
     {
-        id: 'epm',
-        label: 'قياس الأداء',
-        icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2z',
+        id: 'epm-dashboard',
+        label: 'لوحة الأداء',
+        icon: 'M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z',
         path: '/epm',
         permission: null,
-        subItems: [
-            { id: 'epm-dashboard', label: 'لوحة الأداء', path: '/epm', permission: null },
-            { id: 'epm-evaluations', label: 'التقييمات', path: '/epm/evaluations', permission: null },
-            { id: 'epm-goals', label: 'الأهداف', path: '/epm/goals', permission: null },
-            { id: 'epm-kpis', label: 'مؤشرات الأداء', path: '/epm/kpis', permission: null },
-            { id: 'epm-question-bank', label: 'بنك الأسئلة', path: '/epm/question-bank', permission: null },
-            { id: 'epm-tasks', label: 'المهام والمتابعة', path: '/epm/tasks', permission: null },
-            { id: 'epm-governance', label: 'الحوكمة والقرارات', path: '/epm/governance', permission: null },
-            { id: 'epm-permissions', label: 'الصلاحيات', path: '/epm/permissions', permission: null },
-        ],
+    },
+    {
+        id: 'epm-evaluations',
+        label: 'التقييمات',
+        icon: 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414A1 1 0 0119 9.414V19a2 2 0 01-2 2z',
+        path: '/epm/evaluations',
+        permission: null,
+    },
+    {
+        id: 'epm-goals',
+        label: 'الأهداف',
+        icon: 'M9 12l2 2 4-4m5 2a9 9 0 11-18 0 9 9 0 0118 0z',
+        path: '/epm/goals',
+        permission: null,
+    },
+    {
+        id: 'epm-kpis',
+        label: 'مؤشرات الأداء',
+        icon: 'M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z',
+        path: '/epm/kpis',
+        permission: null,
+    },
+    {
+        id: 'epm-question-bank',
+        label: 'بنك الأسئلة',
+        icon: 'M8.228 9c.549-1.165 1.73-2 3.272-2 1.933 0 3.5 1.12 3.5 2.5 0 1.035-.67 1.918-1.607 2.29-.842.335-1.393.884-1.393 1.71V14m0 4h.01M12 22a10 10 0 110-20 10 10 0 010 20z',
+        path: '/epm/question-bank',
+        permission: null,
+    },
+    {
+        id: 'epm-tasks',
+        label: 'المهام والمتابعة',
+        icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 12l2 2 4-4',
+        path: '/epm/tasks',
+        permission: null,
+    },
+    {
+        id: 'epm-governance',
+        label: 'الحوكمة والقرارات',
+        icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z',
+        path: '/epm/governance',
+        permission: null,
+    },
+    {
+        id: 'epm-permissions',
+        label: 'الصلاحيات',
+        icon: 'M12 11c1.657 0 3-1.343 3-3S13.657 5 12 5 9 6.343 9 8s1.343 3 3 3z M6 21v-2a6 6 0 1112 0v2 M17 11l2 2 4-4',
+        path: '/epm/permissions',
+        permission: null,
     },
 ];
 
@@ -922,7 +961,7 @@ export default function Sidebar({
                     const filteredSubItems = hasSubItems
                         ? item.subItems.filter(subItem => hasPermission(subItem.permission))
                         : [];
-                    const isActive = currentPath === item.path || currentPath.startsWith(item.path + '/')
+                    const isActive = currentPath === item.path || (item.path !== '/epm' && currentPath.startsWith(item.path + '/'))
                         || filteredSubItems.some(sub => currentPath === sub.path || currentPath.startsWith(sub.path + '/'));
                     const isExpanded = expandedItems.includes(item.id);
 
