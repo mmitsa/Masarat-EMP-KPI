@@ -25,6 +25,7 @@ import { NextResponse } from 'next/server';
 const PUBLIC_PATHS = [
     '/',
     '/login',
+    '/sso', // الدخول الموحّد من نظام الموارد (MasaratHR)
     '/register',
     '/about',
     '/forgot-password',

@@ -1,5 +1,6 @@
 using System.Net.Http.Json;
 using System.Text.Json;
+using Masarat.Core.MultiTenancy;
 using Masarat.EPM.Application.DTOs;
 using Masarat.EPM.Application.Services;
 using Masarat.EPM.Domain.Entities;
@@ -22,17 +23,20 @@ public class EmployeeIntegrationService : IEmployeeIntegrationService
     private readonly EPMDbContext _db;
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly IConfiguration _configuration;
+    private readonly ITenantAccessor _tenantAccessor;
     private readonly ILogger<EmployeeIntegrationService> _logger;
 
     public EmployeeIntegrationService(
         EPMDbContext db,
         IHttpClientFactory httpClientFactory,
         IConfiguration configuration,
+        ITenantAccessor tenantAccessor,
         ILogger<EmployeeIntegrationService> logger)
     {
         _db = db;
         _httpClientFactory = httpClientFactory;
         _configuration = configuration;
+        _tenantAccessor = tenantAccessor;
         _logger = logger;
     }
 
@@ -162,6 +166,8 @@ public class EmployeeIntegrationService : IEmployeeIntegrationService
         if (!string.IsNullOrWhiteSpace(apiKey))
         {
             request.Headers.TryAddWithoutValidation("X-Integration-Key", apiKey);
+            // MasaratHR's ServiceApiKeyAttribute authenticates on X-Service-ApiKey.
+            request.Headers.TryAddWithoutValidation("X-Service-ApiKey", apiKey);
         }
 
         using var response = await client.SendAsync(request, cancellationToken);
@@ -219,9 +225,16 @@ public class EmployeeIntegrationService : IEmployeeIntegrationService
             throw new InvalidOperationException("بيانات الموظف القادمة من HR ناقصة: رقم الهوية أو الاسم");
         }
 
+        // IgnoreQueryFilters: الفلتر العام يستبعد IsDeleted=true، لكن الموظفين غير
+        // النشطين تُعلَّم لقطاتهم محذوفة ناعماً — بدون التجاوز يحاول الـ upsert
+        // إدراجهم من جديد فيكسر القيد الفريد (Tenant, Source, Employee).
+        var tenantId = _tenantAccessor.TenantId ?? 1;
         var snapshot = await _db.EmployeeSnapshots
+            .IgnoreQueryFilters()
             .AsTracking()
-            .FirstOrDefaultAsync(e => e.SourceSystem == "HR" && e.SourceEmployeeId == sourceEmployeeId, cancellationToken);
+            .FirstOrDefaultAsync(
+                e => e.TenantId == tenantId && e.SourceSystem == "HR" && e.SourceEmployeeId == sourceEmployeeId,
+                cancellationToken);
 
         var now = DateTime.UtcNow;
         var status = string.IsNullOrWhiteSpace(external.Status) ? "Active" : external.Status.Trim();

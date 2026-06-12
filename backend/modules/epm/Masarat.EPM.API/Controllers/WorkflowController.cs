@@ -432,7 +432,9 @@ public class WorkflowController : ControllerBase
             t.Description,
             t.Department,
             t.AssigneeName,
+            t.AssigneeId,
             t.ManagerName,
+            t.ManagerId,
             t.SourceType,
             t.LinkedGoalTitle,
             t.StartDate?.ToString("yyyy-MM-dd"),
@@ -604,7 +606,7 @@ public record WorkflowStoreDto(IReadOnlyList<QuestionDto> Questions, IReadOnlyLi
 public record QuestionDto(string Id, string Department, string Context, string Audience, string Type, string Text, string? SuggestedTaskTitle, bool Required, bool IsOfficial);
 public record QuestionnaireDto(int Id, string Title, string Department, string Context, string EmployeeName, string? ManagerName, string? LinkedGoalTitle, string Status, string SentAt, string? DueDate, string? AnsweredAt, IReadOnlyList<QuestionnaireItemDto> Questions);
 public record QuestionnaireItemDto(string Id, string Text, string Context, string Audience, string Type, string? SuggestedTaskTitle, bool Required, string Answer, bool ConvertedToTask);
-public record TaskDto(int Id, string Title, string? Description, string Department, string AssigneeName, string? ManagerName, string SourceType, string? LinkedGoalTitle, string? StartDate, string? DueDate, string Status, int Progress, string Priority, string? CreatedBy, IReadOnlyList<TaskHistoryDto> History, TaskExtensionDto? ExtensionRequest);
+public record TaskDto(int Id, string Title, string? Description, string Department, string AssigneeName, int? AssigneeId, string? ManagerName, int? ManagerId, string SourceType, string? LinkedGoalTitle, string? StartDate, string? DueDate, string Status, int Progress, string Priority, string? CreatedBy, IReadOnlyList<TaskHistoryDto> History, TaskExtensionDto? ExtensionRequest);
 public record TaskHistoryDto(string At, string Action);
 public record TaskExtensionDto(string Reason, string RequestedDueDate, string RequestedAt, string Status, string? DecidedAt, string? ManagerComment);
 public record UpsertQuestionRequest(string? Department, string? Context, string? Audience, string? Type, string Text, string? SuggestedTaskTitle, bool Required);

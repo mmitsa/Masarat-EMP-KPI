@@ -1,5 +1,51 @@
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
+import crypto from 'crypto';
+
+const HR_SSO_SECRET = process.env.HR_SSO_SECRET || '';
+
+function base64UrlDecode(segment) {
+    return Buffer.from(segment.replace(/-/g, '+').replace(/_/g, '/'), 'base64').toString('utf8');
+}
+
+/**
+ * تحقق من تذكرة الدخول الموحّد القادمة من نظام الموارد (MasaratHR):
+ * JWT HS256 بالسر المشترك HR_SSO_SECRET، مُصدِر MasaratHR وجمهور MasaratEPM،
+ * صلاحيتها دقيقتان. ترجع payload أو null.
+ */
+function verifyHrSsoTicket(ticket) {
+    if (!HR_SSO_SECRET || !ticket) return null;
+    const parts = String(ticket).split('.');
+    if (parts.length !== 3) return null;
+
+    const expected = crypto
+        .createHmac('sha256', HR_SSO_SECRET)
+        .update(`${parts[0]}.${parts[1]}`)
+        .digest('base64')
+        .replace(/=/g, '')
+        .replace(/\+/g, '-')
+        .replace(/\//g, '_');
+    const provided = parts[2];
+    if (
+        expected.length !== provided.length ||
+        !crypto.timingSafeEqual(Buffer.from(expected), Buffer.from(provided))
+    ) {
+        return null;
+    }
+
+    let payload;
+    try {
+        payload = JSON.parse(base64UrlDecode(parts[1]));
+    } catch {
+        return null;
+    }
+
+    const now = Math.floor(Date.now() / 1000);
+    if (!payload.exp || payload.exp < now - 30) return null;
+    if (payload.iss !== 'MasaratHR' || payload.aud !== 'MasaratEPM') return null;
+    if (!payload.employeeNumber) return null;
+    return payload;
+}
 
 const USERS = [
     {
@@ -64,6 +110,42 @@ export const authOptions = {
                     roles: user.roles,
                     permissions: user.permissions,
                     tenantId: user.tenantId,
+                    mustChangePassword: false,
+                    passwordExpiresAt: null,
+                };
+            },
+        }),
+        CredentialsProvider({
+            id: 'hr-sso',
+            name: 'MasaratHrSso',
+            credentials: {
+                ticket: { label: 'HR SSO Ticket', type: 'text' },
+            },
+            async authorize(credentials) {
+                const payload = verifyHrSsoTicket(credentials?.ticket);
+                if (!payload) return null;
+
+                const hrRole = String(payload.hrRole || 'EMPLOYEE').toUpperCase();
+                const elevated = payload.isManager === 'true'
+                    || ['SYSTEM_ADMIN', 'HR_MANAGER', 'MAYOR', 'IT_MANAGER', 'DIRECT_MANAGER'].includes(hrRole);
+                const admin = ['SYSTEM_ADMIN', 'HR_MANAGER'].includes(hrRole);
+
+                return {
+                    id: payload.employeeNumber,
+                    nationalId: payload.employeeNumber,
+                    name: payload.name || payload.employeeNumber,
+                    email: null,
+                    roles: admin
+                        ? ['super_admin', 'hr_manager']
+                        : elevated
+                            ? ['hr_manager']
+                            : ['employee'],
+                    permissions: admin
+                        ? ['epm:read', 'epm:write', 'epm:admin', 'hr:read', 'hr:write']
+                        : elevated
+                            ? ['epm:read', 'epm:write', 'epm:admin', 'hr:read']
+                            : ['epm:read', 'epm:write'],
+                    tenantId: 1,
                     mustChangePassword: false,
                     passwordExpiresAt: null,
                 };
